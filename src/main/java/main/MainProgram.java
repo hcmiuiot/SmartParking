@@ -16,7 +16,7 @@ public class MainProgram extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-//		primaryStage.getIcons().add(new Image("hcmiulogo.png"));
+		primaryStage.getIcons().add(new Image("hcmiulogo.png"));
 		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/MainForm.fxml"));
 		Parent mainform = loader.load();
 		Scene mainScence = new Scene(mainform);
