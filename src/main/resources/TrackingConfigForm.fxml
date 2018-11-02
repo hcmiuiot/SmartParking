@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="288.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingConfigController">
+   <children>
+      <JFXSlider fx:id="focusWidth" blockIncrement="1.0" indicatorPosition="RIGHT" layoutX="121.0" layoutY="69.0" max="800.0" min="50.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />
+      <JFXSlider fx:id="focusHeight" blockIncrement="1.0" indicatorPosition="RIGHT" layoutX="121.0" layoutY="97.0" max="600.0" min="50.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />
+      <Label layoutX="13.0" layoutY="72.0" text="Focus width" />
+      <Label layoutX="11.0" layoutY="100.0" text="Focus height" />
+      <JFXSlider fx:id="focusX" blockIncrement="1.0" layoutX="121.0" layoutY="146.0" max="700.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />
+      <JFXSlider fx:id="focusY" blockIncrement="1.0" layoutX="121.0" layoutY="172.0" max="500.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />
+      <Label layoutX="13.0" layoutY="149.0" text="Focus X position" />
+      <Label layoutX="13.0" layoutY="175.0" text="Focus Y position" />
+      <JFXButton layoutX="49.0" layoutY="219.0" onAction="#onOkay" prefHeight="44.0" prefWidth="100.0" text="Okay" />
+      <JFXButton layoutX="158.0" layoutY="219.0" onAction="#onCancel" prefHeight="44.0" prefWidth="100.0" text="Cancel" />
+      <JFXComboBox fx:id="comboCamera" layoutX="121.0" layoutY="22.0" prefHeight="28.0" prefWidth="174.0" />
+      <Label layoutX="13.0" layoutY="27.0" text="Camera source" />
+   </children>
+</AnchorPane>
