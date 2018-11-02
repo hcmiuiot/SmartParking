@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="288.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingConfigController">
+<AnchorPane prefHeight="288.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingConfigController">
    <children>
       <JFXSlider fx:id="focusWidth" blockIncrement="1.0" indicatorPosition="RIGHT" layoutX="121.0" layoutY="69.0" max="800.0" min="50.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />
       <JFXSlider fx:id="focusHeight" blockIncrement="1.0" indicatorPosition="RIGHT" layoutX="121.0" layoutY="97.0" max="600.0" min="50.0" onDragDetected="#onChangeFocusConfigs" prefHeight="24.0" prefWidth="174.0" value="100.0" />

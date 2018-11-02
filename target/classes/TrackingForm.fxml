@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
    <children>
       <JFXButton layoutX="19.0" layoutY="456.0" onAction="#onConfig" prefHeight="36.0" prefWidth="82.0" text="Config" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="19.0" />
       <JFXButton layoutX="113.0" layoutY="456.0" onAction="#onTest" prefHeight="36.0" prefWidth="82.0" text="Open" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="113.0" />
