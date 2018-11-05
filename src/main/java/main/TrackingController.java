@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -60,9 +61,21 @@ public class TrackingController implements Initializable {
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(new File("./data/img"));
 		File img = chooser.showOpenDialog(null);
-		if (img != null)
-			ImageProcessing.setImage(imgCamera, )
-			txtPlateNumber.setText(ImageProcessing.getLicensePlateNumber(img));
+		if (img != null) {
+			DataPacket packet = new DataPacket(img);
+			//packet.recognizeLicenseNumber();
+
+//			Platform.runLater(() -> {
+//				imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
+//					txtPlateNumber.setText(packet.getLicenseNumber());
+//			});
+
+			System.out.println(packet);
+			//imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
+//			ImageProcessing.setImage(this.imgCamera, packet.getOriginMat());
+//			ImageProcessing.setImage(this.imgPlate, packet.getDetectedPlate());
+
+		}
 	}
 	
 	@FXML

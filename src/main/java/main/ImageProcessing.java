@@ -40,6 +40,7 @@ public class ImageProcessing {
 	public static Image mat2Image(Mat img) {
 		MatOfByte byteMat = new MatOfByte();
 		Imgcodecs.imencode(".bmp", img, byteMat);
+		System.out.println(img);
 		return new Image(new ByteArrayInputStream(byteMat.toArray()));
 	}
 	public static BufferedImage Mat2BufferedImage(Mat matrix) throws Exception {        
@@ -51,9 +52,10 @@ public class ImageProcessing {
 	    return bi;
 	}
 	public static ImageView setImage(ImageView imgView, Mat img) {
-		Platform.runLater(() -> {
-			imgView.setImage(ImageProcessing.mat2Image(img));
-		});
+		if (imgView != null && img != null)
+			Platform.runLater(() -> {
+				imgView.setImage(ImageProcessing.mat2Image(img));
+			});
 		return imgView;
 	}
 
@@ -363,7 +365,7 @@ public class ImageProcessing {
 		String plateNumber = "";
 		for (int t = 0; t < characterBoxes.size(); t++) {
 
-			System.out.println(characterBoxes.get(t).getMat());
+//			System.out.println(characterBoxes.get(t).getMat());
 
 			//Imgcodecs.imwrite("./demo/char/" + characterBoxes.get(t).hashCode() + ".jpg", characterBoxes.get(t).getMat());
 
