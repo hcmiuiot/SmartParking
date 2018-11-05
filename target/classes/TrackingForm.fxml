@@ -15,7 +15,7 @@
       <JFXButton layoutX="205.0" layoutY="456.0" onAction="#onTestAll" prefHeight="36.0" prefWidth="110.0" text="Process ALL" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="205.0" />
       <ImageView fx:id="imgCamera" fitHeight="300.0" fitWidth="400.0" layoutX="19.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.bottomAnchor="304.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="10.0">
          <image>
-            <Image url="file:../../../../../../../../Photo/logo%20vecter%20IU-01.png" />
+            <Image url="hcmiulogo.png" />
          </image>
       </ImageView>
       <ImageView fx:id="imgPlate" fitHeight="81.0" fitWidth="400.0" layoutX="19.0" layoutY="328.0" pickOnBounds="true" AnchorPane.bottomAnchor="126.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0" />
