@@ -35,9 +35,9 @@ public class DataPacket {
 
     public boolean recognizeLicenseNumber() {
         Mat preprocessedImg = ImageProcessing.preprocessingImg(this.getOriginMat());
-        this.detectedPlateMat = ImageProcessing.detectPlate(preprocessedImg);
-        ArrayList<CharacterBox> characterBoxes = ImageProcessing.getCharactersFromPlate(this.detectedPlateMat);
-        this.licenseNumber = ImageProcessing.OCRCharacters(characterBoxes);
+//        this.detectedPlateMat = ImageProcessing.detectPlate(preprocessedImg);
+//        ArrayList<CharacterBox> characterBoxes = ImageProcessing.getCharactersFromPlate(this.detectedPlateMat);
+//        this.licenseNumber = ImageProcessing.OCRCharacters(characterBoxes);
         return true;
     }
 

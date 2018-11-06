@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import org.opencv.core.*;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
@@ -194,17 +195,54 @@ public class ImageProcessing {
 		//Change to gray photo
 		Imgproc.cvtColor(frame, grayImg, Imgproc.COLOR_BGR2GRAY);
 
-		Mat thresholdedImg = new Mat();
-		//Adaptive threshold
-		Imgproc.adaptiveThreshold(grayImg, thresholdedImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
-				Imgproc.THRESH_BINARY, THRESHOLD_BLOCK_SIZE, THRESHOLD_C);
-
+		//################################
+//		Mat thresholdedImg = new Mat();
+//		//Adaptive threshold
+//		Imgproc.adaptiveThreshold(grayImg, thresholdedImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
+//				Imgproc.THRESH_BINARY, THRESHOLD_BLOCK_SIZE, THRESHOLD_C);
+//
 		Mat morphology = new Mat();
 		//Morphology
-		Imgproc.morphologyEx(thresholdedImg, morphology, Imgproc.MORPH_OPEN,
-				Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(MORPHOLOGY_SIZE,MORPHOLOGY_SIZE)));
+		Imgproc.morphologyEx(grayImg, morphology, Imgproc.MORPH_CLOSE,
+				Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(9,5)));
+		Mat subtraction = new Mat();
+		Core.subtract(morphology, grayImg, subtraction);
+		int kernelSize = 9;
+		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 
-		return morphology;
+		//Mat source = Im.imread("grayscale.jpg",  Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+		//Mat destination = new Mat(source.rows(),source.cols(),source.type());
+
+		Mat kernel = new Mat(kernelSize,kernelSize, CvType.CV_32F) {
+			{
+				put(0, 0, -1);
+				put(0, 1, -2);
+				put(0, 2, -1);
+
+				put(1, 0, -0);
+				put(1, 1, 0);
+				put(1, 2, 0);
+
+				put(2, 0, 1);
+				put(2, 1, 2);
+				put(2, 2, 1);
+			}
+		};
+		Mat sobel = new Mat();
+		Imgproc.filter2D(grayImg,sobel , -1, kernel);
+		//###############################
+
+
+
+		HighGui.imshow("GrayImg", subtraction);
+		HighGui.imshow("Sobel", sobel);
+		Mat morpKernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(9, 5));
+//		Mat morpedImg = new Mat();
+//		Imgproc.morphologyEx(grayImg, morpedImg, Imgproc.MORPH_TOPHAT, morpKernel);
+//		HighGui.imshow("Morphed", morpedImg);
+		HighGui.waitKey(0);
+
+		return null;
 	}
 	public static Mat detectPlate(Mat processedImg) {
 
@@ -377,14 +415,14 @@ public class ImageProcessing {
 
 	public static String getLicensePlateNumber(Mat img) {
 		Mat preprocessedImg = preprocessingImg(img);
-		Mat plate = detectPlate(preprocessedImg);
-		ArrayList<CharacterBox> characterBoxes = getCharactersFromPlate(plate);
-		String licenseNumber = OCRCharacters(characterBoxes);
-
-		System.out.println("Plate number: " + licenseNumber);
+////		Mat plate = detectPlate(preprocessedImg);
+////		ArrayList<CharacterBox> characterBoxes = getCharactersFromPlate(plate);
+////		String licenseNumber = OCRCharacters(characterBoxes);
+//
+//		System.out.println("Plate number: " + licenseNumber);
 
 		//Imgcodecs.imwrite("./demo/"+frame.hashCode(), plateColor);
-		return licenseNumber;
+		return "";
 
 // 		HighGui.waitKey();
 		//Mat zero = Mat.zeros(new Size(100,100), 1);
