@@ -57,9 +57,7 @@ public class TrackingController implements Initializable {
 		File img = chooser.showOpenDialog(null);
 		if (img != null) {
 			DataPacket packet = new DataPacket(img);
-
 			ImageProcessing.setImage(imgCamera, packet.getOriginMat());
-//			imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
 			ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
 			txtPlateNumber.setText(packet.getLicenseNumber());
 		}

@@ -38,9 +38,10 @@ public class ImageProcessing {
 	}
 	
 	public static Image mat2Image(Mat img) {
+		if (img == null)
+			return null;
 		MatOfByte byteMat = new MatOfByte();
 		Imgcodecs.imencode(".bmp", img, byteMat);
-		System.out.println(img);
 		return new Image(new ByteArrayInputStream(byteMat.toArray()));
 	}
 	public static BufferedImage Mat2BufferedImage(Mat matrix) throws Exception {        
@@ -52,7 +53,7 @@ public class ImageProcessing {
 	    return bi;
 	}
 	public static ImageView setImage(ImageView imgView, Mat img) {
-		if (imgView != null && img != null)
+		if (imgView != null)
 			Platform.runLater(() -> {
 				imgView.setImage(ImageProcessing.mat2Image(img));
 			});
