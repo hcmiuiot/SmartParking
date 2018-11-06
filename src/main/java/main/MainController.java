@@ -9,15 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 
 public class MainController implements Initializable {
 	@FXML
 	private Label lblTime;
 	@FXML
-	private AnchorPane leftPane;
-	@FXML
-	private AnchorPane rightPane;
+	private SplitPane splitPane;
 	
 	Parent trackingForm1, trackingForm2;
 	
@@ -35,10 +34,9 @@ public class MainController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		leftPane.getChildren().addAll(trackingForm1);
-		rightPane.getChildren().addAll(trackingForm2);
-	
+
+		splitPane.getItems().add(trackingForm1);
+		splitPane.getItems().add(trackingForm2);
 	}
 
 }

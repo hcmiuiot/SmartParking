@@ -79,7 +79,7 @@ public class TrackingController implements Initializable {
 		      if (listOfFiles[i].isFile()) {
 		        System.out.println("File " + listOfFiles[i].getName());
 		        
-		        ImageProcessing.getLicensePlateNumber(listOfFiles[i]);
+//		        ImageProcessing.getLicensePlateNumber(listOfFiles[i]);
 		        
 		      }
 		        
@@ -111,7 +111,7 @@ public class TrackingController implements Initializable {
 //						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
-					ImageProcessing.getLicensePlateNumber(a);
+//					ImageProcessing.getLicensePlateNumber(a);
 					try {
 						TimeUnit.MILLISECONDS.sleep(1);
 					} catch (InterruptedException e) {

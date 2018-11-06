@@ -208,6 +208,9 @@ public class ImageProcessing {
 	}
 	public static Mat detectPlate(Mat processedImg) {
 
+		if (processedImg == null)
+			return null;
+
 		//Find contour plate
 		ArrayList<MatOfPoint> contours = new ArrayList<>();
 		Mat hierarchy = new Mat();
@@ -336,6 +339,10 @@ public class ImageProcessing {
 		return null;
 	}
 	public static ArrayList<CharacterBox> getCharactersFromPlate(Mat plateImg) {
+
+		if (plateImg == null)
+			return null;
+
 		//Find character contours
 		ArrayList<MatOfPoint> plateContours = new ArrayList<>();
 		Mat plateHierarchy = new Mat();
@@ -363,6 +370,9 @@ public class ImageProcessing {
 		return characterBoxs;
 	}
 	public static String OCRCharacters(ArrayList<CharacterBox> characterBoxes) {
+		if (characterBoxes == null)
+			return null;
+
 		String plateNumber = "";
 		for (int t = 0; t < characterBoxes.size(); t++) {
 
@@ -375,37 +385,46 @@ public class ImageProcessing {
 		return plateNumber;
 	}
 
-	public static String getLicensePlateNumber(Mat img) {
-		Mat preprocessedImg = preprocessingImg(img);
-		Mat plate = detectPlate(preprocessedImg);
-		ArrayList<CharacterBox> characterBoxes = getCharactersFromPlate(plate);
-		String licenseNumber = OCRCharacters(characterBoxes);
-
-		System.out.println("Plate number: " + licenseNumber);
-
-		//Imgcodecs.imwrite("./demo/"+frame.hashCode(), plateColor);
-		return licenseNumber;
-
-// 		HighGui.waitKey();
-		//Mat zero = Mat.zeros(new Size(100,100), 1);
-		//Imgcodecs.imwrite("./demo/"+frame.hashCode(), zero);
-//		Platform.runLater(()-> {
-//			txtPlateNumber.setText("");
-//		});
-
-		//HighGui.imshow("gray", grayImg);
-
-		//HighGui.imshow("gray2", grayImg2);
-		//HighGui.imshow("threshold", thresholdedImg);
-//		HighGui.imshow(""+thresholdedImg2.hashCode(), thresholdedImg2);
-//		// HighGui.imshow("origin", frame);
-//	    HighGui.imshow(""+morphology.hashCode(), morphology);
-//		HighGui.waitKey();
-		// }
+	public static DataPacket recognizeLicenseNumber(DataPacket dataPacket) {
+		Mat preprocessedImg = preprocessingImg(dataPacket.getOriginMat());
+		dataPacket.setDetectedPlate(detectPlate(preprocessedImg));
+		ArrayList<CharacterBox> characterBoxes = getCharactersFromPlate(dataPacket.getDetectedPlate());
+		dataPacket.setLicenseNumber(OCRCharacters(characterBoxes));
+		dataPacket.setRecognized(dataPacket.getLicenseNumber() != null);
+		return  dataPacket;
 	}
-	public static String getLicensePlateNumber(File imgFileName) {
-		return getLicensePlateNumber(Imgcodecs.imread(imgFileName.getAbsolutePath()));
-	}
+
+//	public static String getLicensePlateNumber(Mat img) {
+//		Mat preprocessedImg = preprocessingImg(img);
+//		Mat plate = detectPlate(preprocessedImg);
+//		ArrayList<CharacterBox> characterBoxes = getCharactersFromPlate(plate);
+//		String licenseNumber = OCRCharacters(characterBoxes);
+//
+////		System.out.println("Plate number: " + licenseNumber);
+//
+////		Imgcodecs.imwrite("./demo/"+frame.hashCode(), plateColor);
+//		return licenseNumber;
+//
+//// 		HighGui.waitKey();
+//		//Mat zero = Mat.zeros(new Size(100,100), 1);
+//		//Imgcodecs.imwrite("./demo/"+frame.hashCode(), zero);
+////		Platform.runLater(()-> {
+////			txtPlateNumber.setText("");
+////		});
+//
+//		//HighGui.imshow("gray", grayImg);
+//
+//		//HighGui.imshow("gray2", grayImg2);
+//		//HighGui.imshow("threshold", thresholdedImg);
+////		HighGui.imshow(""+thresholdedImg2.hashCode(), thresholdedImg2);
+////		// HighGui.imshow("origin", frame);
+////	    HighGui.imshow(""+morphology.hashCode(), morphology);
+////		HighGui.waitKey();
+//		// }
+//	}
+//	public static String getLicensePlateNumber(File imgFileName) {
+//		return getLicensePlateNumber(Imgcodecs.imread(imgFileName.getAbsolutePath()));
+//	}
 }
 
 class CharacterBox implements Comparable<CharacterBox>{

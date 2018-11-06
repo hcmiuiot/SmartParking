@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class DataPacket {
     public DataPacket(Mat originMat) {
         this.originMat = originMat;
-        this.isRecognized = this.recognizeLicenseNumber();
+        ImageProcessing.recognizeLicenseNumber(this);
     }
     public DataPacket(File originImgFileName) {
         this(Imgcodecs.imread(originImgFileName.getAbsolutePath()));
@@ -33,13 +33,6 @@ public class DataPacket {
     public boolean isRecognized() { return isRecognized; }
     public void setRecognized(boolean recognized) { isRecognized = recognized; }
 
-    public boolean recognizeLicenseNumber() {
-        Mat preprocessedImg = ImageProcessing.preprocessingImg(this.getOriginMat());
-        this.detectedPlateMat = ImageProcessing.detectPlate(preprocessedImg);
-        ArrayList<CharacterBox> characterBoxes = ImageProcessing.getCharactersFromPlate(this.detectedPlateMat);
-        this.licenseNumber = ImageProcessing.OCRCharacters(characterBoxes);
-        return true;
-    }
 
     @Override
     public String toString() {
