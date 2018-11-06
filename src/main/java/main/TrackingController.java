@@ -41,12 +41,6 @@ public class TrackingController implements Initializable {
 	private VideoCapture capture;
 	private Mat frame;
 	private Mat m1;
-	double lowRatio = 0f;
-	double highRatio = 4f;
-	double minArea = 1000;
-	double maxArea = 2000;
-	double lowWhiteDensity = 1000;
-	double highWhiteDensity = 3000;
 
 	public void initialize(URL location, ResourceBundle resources) {
 		setDeviceIndex(0);
@@ -63,18 +57,11 @@ public class TrackingController implements Initializable {
 		File img = chooser.showOpenDialog(null);
 		if (img != null) {
 			DataPacket packet = new DataPacket(img);
-			//packet.recognizeLicenseNumber();
 
-//			Platform.runLater(() -> {
-//				imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
-//					txtPlateNumber.setText(packet.getLicenseNumber());
-//			});
-
-			System.out.println(packet);
-			//imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
-//			ImageProcessing.setImage(this.imgCamera, packet.getOriginMat());
-//			ImageProcessing.setImage(this.imgPlate, packet.getDetectedPlate());
-
+			ImageProcessing.setImage(imgCamera, packet.getOriginMat());
+//			imgCamera.setImage(ImageProcessing.mat2Image(packet.getOriginMat()));
+			ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
+			txtPlateNumber.setText(packet.getLicenseNumber());
 		}
 	}
 	

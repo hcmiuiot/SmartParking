@@ -13,7 +13,7 @@ public class DataPacket {
         this.isRecognized = this.recognizeLicenseNumber();
     }
     public DataPacket(File originImgFileName) {
-        new DataPacket(Imgcodecs.imread(originImgFileName.getAbsolutePath()));
+        this(Imgcodecs.imread(originImgFileName.getAbsolutePath()));
     }
 
     private Mat originMat;
@@ -38,8 +38,6 @@ public class DataPacket {
         this.detectedPlateMat = ImageProcessing.detectPlate(preprocessedImg);
         ArrayList<CharacterBox> characterBoxes = ImageProcessing.getCharactersFromPlate(this.detectedPlateMat);
         this.licenseNumber = ImageProcessing.OCRCharacters(characterBoxes);
-        //System.out.println(this.detectedPlateMat);
-        System.out.println("Plate number: " + licenseNumber);
         return true;
     }
 
