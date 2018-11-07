@@ -56,7 +56,7 @@ public class TrackingConfigController implements Initializable {
 		comboCamera.getItems().add("Camera 1");
 		comboCamera.getItems().add("Camera 2");
 		comboCamera.getItems().add("Camera 3");
-		comboCamera.getSelectionModel().select(trackingController.getDeviceIndex());
+//		comboCamera.getSelectionModel().select(trackingController.getDeviceIndex());
 	}
 	
 }

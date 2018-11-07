@@ -10,11 +10,11 @@ public class CameraStreamer {
     }
 
     public int getFps() {
-
+        return 0;
     }
 
     public boolean startStream() {
-
+        return true;
     }
 
     public Mat grabMat() {
@@ -22,11 +22,11 @@ public class CameraStreamer {
     }
 
     public Image grabImage() {
-
+        return null;
     }
 
     public boolean stopStream() {
-
+        return true;
     }
 
 }
