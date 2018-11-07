@@ -28,6 +28,11 @@ public class MainProgram extends Application {
 		primaryStage.setTitle("SMART PARKING - HCM-IU - VNU");
 		
 //		Database.getInstance(); //Connect 2 DB
+		primaryStage.setOnCloseRequest(event -> {
+			System.out.println("Reach main here");
+			Platform.exit();
+			System.exit(0);
+		});
 		primaryStage.show();
 
 

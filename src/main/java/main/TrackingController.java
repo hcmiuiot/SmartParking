@@ -66,6 +66,12 @@ public class TrackingController {
 		}
 	}
 
+	@FXML
+	public void exitApplication(ActionEvent event) {
+		System.out.println("Reach here");
+		Platform.exit();
+	}
+
 	public StreamingThread streamingThread;
 	public StreamingThread streamingThread2;
 	@FXML
