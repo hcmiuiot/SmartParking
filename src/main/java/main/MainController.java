@@ -35,6 +35,7 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 
+		splitPane.setDividerPosition(0, splitPane.getWidth()/2);
 		splitPane.getItems().add(trackingForm1);
 		splitPane.getItems().add(trackingForm2);
 	}

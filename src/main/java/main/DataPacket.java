@@ -5,7 +5,6 @@ import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class DataPacket {
     public DataPacket(Mat originMat) {

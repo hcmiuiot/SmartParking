@@ -28,11 +28,17 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TrackingController implements Initializable {
-	
+
 	@FXML
-	private ImageView imgCamera;
+	private ImageView imgFont;
 	@FXML
-    private ImageView imgPlate;
+	private ImageView imgBehind;
+	@FXML
+	private ImageView imgPlate;
+	@FXML
+	private ImageView imgCamFont;
+	@FXML
+	private ImageView imgCamBehind;
 	@FXML
     private JFXTextField txtPlateNumber;
 
@@ -57,7 +63,8 @@ public class TrackingController implements Initializable {
 		File img = chooser.showOpenDialog(null);
 		if (img != null) {
 			DataPacket packet = new DataPacket(img);
-			ImageProcessing.setImage(imgCamera, packet.getOriginMat());
+			ImageProcessing.setImage(imgFont, packet.getOriginMat());
+			ImageProcessing.setImage(imgBehind, packet.getOriginMat());
 			ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
 			txtPlateNumber.setText(packet.getLicenseNumber());
 		}
@@ -211,7 +218,7 @@ public class TrackingController implements Initializable {
 				Platform.runLater(() -> {
 					Imgproc.rectangle(m1, new Point(focusX, focusY),
 							new Point(focusX + focusWidth, focusY + focusHeight), new Scalar(0, 0, 255));
-					imgCamera.setImage(ImageProcessing.mat2Image(frame));
+					//imgCamera.setImage(ImageProcessing.mat2Image(frame));
 				});
 				try {
 					TimeUnit.MILLISECONDS.sleep(200);

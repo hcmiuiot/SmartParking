@@ -10,9 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="889.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
    <children>
       <VBox prefHeight="889.0" prefWidth="890.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,12 +21,12 @@
                <children>
                   <AnchorPane prefHeight="741.0" prefWidth="443.0">
                      <children>
-                        <ImageView fx:id="imgCamera" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
+                        <ImageView fx:id="imgFont" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
                            <image>
                               <Image url="@hcmiulogo.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgCamera1" fitHeight="300.0" fitWidth="400.0" layoutX="19.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="310.0">
+                        <ImageView fx:id="imgBehind" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="310.0">
                            <image>
                               <Image url="@hcmiulogo.png" />
                            </image>
@@ -35,12 +36,12 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="741.0" prefWidth="443.0">
                      <children>
-                        <ImageView fx:id="imgCamera1" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
+                        <ImageView fx:id="imgCamFont" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
                            <image>
                               <Image url="@hcmiulogo.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgCamera11" fitHeight="300.0" fitWidth="400.0" layoutX="19.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="310.0">
+                        <ImageView fx:id="imgCamBehind" fitHeight="300.0" fitWidth="400.0" layoutX="19.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="310.0">
                            <image>
                               <Image url="@hcmiulogo.png" />
                            </image>
@@ -50,11 +51,30 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <SplitPane dividerPositions="0.39734353894642055">
+            <SplitPane dividerPositions="0.509905447996398">
               <items>
                   <AnchorPane prefHeight="144.0" prefWidth="398.0">
                      <children>
-                        <Label text="Label" AnchorPane.bottomAnchor="126.4" AnchorPane.rightAnchor="172.0" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Check-in time:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="46.0" text="Check-out time:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="78.0" text="Parking duration:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="124.0" text="Parking fee:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Line endX="109.19998168945312" endY="-1.1444091796875E-4" layoutX="326.0" layoutY="117.0" startX="-312.0" startY="-5.340576171875E-5" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="116.2927787899971" />
                      </children></AnchorPane>
                   <VBox prefHeight="144.0" prefWidth="486.0">
                      <children>
