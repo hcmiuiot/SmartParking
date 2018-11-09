@@ -1,6 +1,6 @@
 package main;
 
-import Camera.StreamingThread;
+import Camera.CameraStreamer;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -70,25 +70,25 @@ public class TrackingController {
 		Platform.exit();
 	}
 
-	public StreamingThread streamingThread;
-	public StreamingThread streamingThread2;
+	public CameraStreamer cameraStreamer;
+	public CameraStreamer cameraStreamer2;
 	@FXML
     void onTestAll(ActionEvent event) {
 //		demoProcessAllImgs();
 //		ImageProcessing.train();
 
 //		Platform.runLater(() -> {
-			streamingThread = new StreamingThread(0, imgCamFont);
-			streamingThread2 = new StreamingThread(0, imgCamBehind);
+			cameraStreamer = new CameraStreamer(0, imgCamFont);
+			cameraStreamer2 = new CameraStreamer(0, imgCamBehind);
 //
-//            streamingThread.setFps(50);
-//            streamingThread2.setFps(50);
+//            cameraStreamer.setFps(50);
+//            cameraStreamer2.setFps(50);
 
-			streamingThread.startStream();
-			streamingThread2.startStream();
+			cameraStreamer.startStream();
+			cameraStreamer2.startStream();
 //		});
 
-		//Thread thread = new Thread(new StreamingThread(0, imgCamFont));
+		//Thread thread = new Thread(new CameraStreamer(0, imgCamFont));
 //		streamVideo();
     }
 
@@ -115,9 +115,9 @@ public class TrackingController {
 
 	@FXML
 	private void onConfig(ActionEvent event) {
-//		streamingThread.stopStream();
-//		streamingThread2.stopStream();
-		FXMLLoader configLoader = new FXMLLoader(getClass().getResource("/TrackingConfigForm.fxml"));
+//		cameraStreamer.stopStream();
+//		cameraStreamer2.stopStream();
+		FXMLLoader configLoader = new FXMLLoader(getClass().getResource("/" + Constants.FXML_TRACKING_CONFIG));
 		try {
 			AnchorPane configDialog = configLoader.load();
 			Stage stage = new Stage();
@@ -125,7 +125,8 @@ public class TrackingController {
 			stage.setScene(new Scene(configDialog));
 			TrackingConfigController configController = configLoader.getController();
 			configController.setTrackingController(this);
-			stage.show();
+//			stage.show();
+			stage.showAndWait();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -148,7 +149,6 @@ public class TrackingController {
 	}
 
 //	@Override
-
 //	public void finalizeStream() throws IOException {
 //		shutdown();
 //	}

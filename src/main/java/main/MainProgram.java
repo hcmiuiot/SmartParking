@@ -22,13 +22,13 @@ public class MainProgram extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.getIcons().add(new Image("hcmiulogo.png"));
-		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/MainForm.fxml"));
+		primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
+		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
 		Parent mainform = loader.load();
 		Scene mainScence = new Scene(mainform);
 		primaryStage.setScene(mainScence);
 		primaryStage.setMaximized(true);
-		primaryStage.setTitle("SMART PARKING - HCM-IU - VNU");
+		primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
 //		Database.getInstance(); //Connect 2 DB
 		primaryStage.setOnCloseRequest(event -> {

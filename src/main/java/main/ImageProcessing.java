@@ -26,8 +26,6 @@ public class ImageProcessing {
 
 	private static ImageProcessing instance;
 	
-	private static final int SZ = 20;
-	
 	private ImageProcessing() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
@@ -70,7 +68,7 @@ public class ImageProcessing {
 		double skew = 1f*m.get_mu11()/m.get_mu02();
 
 		Mat map = new Mat(CvType.CV_32F);
-		map.push_back(new MatOfFloat(1f, (float)skew, (float)(-0.5f*SZ*skew)));
+		map.push_back(new MatOfFloat(1f, (float)skew, (float)(-0.5f*Constants.SZ*skew)));
 		map.push_back(new MatOfFloat(0f,1f,0f));
 
 		Mat result = new Mat();
@@ -81,17 +79,9 @@ public class ImageProcessing {
 	
 	private static SVM svm4training;
 	private static SVM svm4prediction = null;
-
-	private static final Size PREDICTION_CHAR_SIZE = new Size(10,10);
-	private static final String TRAIN_CHARS_DIR = ".data/demo/char";
-	private static final String TRAIN_OUTPUT_DIR = "./trainedData.txt";
-	private static final Size PREPROCESSING_RESIZE_SIZE = new Size(800, 600);
-	private static final int THRESHOLD_BLOCK_SIZE = 95;
-	private static final int THRESHOLD_C = 0;
-	private static final int MORPHOLOGY_SIZE = 2;
 	
 	public static HOGDescriptor getHog() {
-		HOGDescriptor hog = new HOGDescriptor(PREDICTION_CHAR_SIZE, new Size(10,10), new Size(5,5), new Size(5,5), 9, 1, -1, 0, 0.2f, true, 64, true);
+		HOGDescriptor hog = new HOGDescriptor(Constants.PREDICTION_CHAR_SIZE, new Size(10,10), new Size(5,5), new Size(5,5), 9, 1, -1, 0, 0.2f, true, 64, true);
 		return hog;
 	}
 
@@ -125,7 +115,7 @@ public class ImageProcessing {
 					if (listOfImages[x].isFile()) {
 						//System.out.println(listOfImages[x].getPath()+"/" + list);
 						Mat m = Imgcodecs.imread(listOfImages[x].getPath(), 0);
-						Imgproc.resize(m, m, PREDICTION_CHAR_SIZE);
+						Imgproc.resize(m, m, Constants.PREDICTION_CHAR_SIZE);
 //						Imgproc.threshold(m, m, 50, 255, Imgproc.THRESH_BINARY);
 						//m = m.reshape(1,1);
 						System.out.println(m);
@@ -160,14 +150,11 @@ public class ImageProcessing {
 		svm4training.save(outputFileName);
 		System.out.println("TRAINING COMPLETED!");
 	}
-	public static void train(){ train(TRAIN_CHARS_DIR, TRAIN_OUTPUT_DIR); }
+	public static void train(){ train(Constants.TRAIN_CHARS_DIR, Constants.TRAIN_OUTPUT_DIR); }
 
 	public static int predictChar(Mat img, String trainedFilename) {
-		Imgproc.resize(img, img, PREDICTION_CHAR_SIZE);
-//		Imgproc.threshold(img, img, 50, 255, Imgproc.THRESH_BINARY);
-//		img = img.reshape(1,1);
-//		img.convertTo(img, CvType.CV_32FC1);
-		
+		Imgproc.resize(img, img, Constants.PREDICTION_CHAR_SIZE);
+
 		MatOfFloat hog = new MatOfFloat();
 		Mat mat4prediction = new Mat();
 		
@@ -183,13 +170,13 @@ public class ImageProcessing {
 		
 		return (int)svm4prediction.predict(mat4prediction);
 	}
-	public static int predictChar(Mat img) { return predictChar(img, TRAIN_OUTPUT_DIR); }
+	public static int predictChar(Mat img) { return predictChar(img, Constants.TRAIN_OUTPUT_DIR); }
 
 	public static Mat preprocessingImg(Mat srcImg) {
 		Mat frame = srcImg.clone();
 
 		//Resize image
-		Imgproc.resize(frame, frame, PREPROCESSING_RESIZE_SIZE);
+		Imgproc.resize(frame, frame, Constants.PREPROCESSING_RESIZE_SIZE);
 
 		Mat grayImg = new Mat();
 		//Change to gray photo
@@ -198,12 +185,12 @@ public class ImageProcessing {
 		Mat thresholdedImg = new Mat();
 		//Adaptive threshold
 		Imgproc.adaptiveThreshold(grayImg, thresholdedImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
-				Imgproc.THRESH_BINARY, THRESHOLD_BLOCK_SIZE, THRESHOLD_C);
+				Imgproc.THRESH_BINARY, Constants.THRESHOLD_BLOCK_SIZE, Constants.THRESHOLD_C);
 
 		Mat morphology = new Mat();
 		//Morphology
 		Imgproc.morphologyEx(thresholdedImg, morphology, Imgproc.MORPH_OPEN,
-				Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(MORPHOLOGY_SIZE,MORPHOLOGY_SIZE)));
+				Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(Constants.MORPHOLOGY_SIZE, Constants.MORPHOLOGY_SIZE)));
 
 		return morphology;
 	}
@@ -332,7 +319,7 @@ public class ImageProcessing {
 
 					Imgproc.threshold(plateImg, plateImg, 50, 255, Imgproc.THRESH_BINARY);
 					Imgproc.morphologyEx(plateImg, plateImg, Imgproc.MORPH_OPEN,
-							Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(MORPHOLOGY_SIZE,MORPHOLOGY_SIZE)));
+							Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(Constants.MORPHOLOGY_SIZE, Constants.MORPHOLOGY_SIZE)));
 					return plateImg;
 				}
 			}
@@ -428,15 +415,14 @@ public class ImageProcessing {
 //	}
 
 	public static int getNumOfAvailableCamera() {
-		int maxCount = 10;
 		int camCount = 0;
 		VideoCapture testVc = new VideoCapture();
-		for (int i=0; i < maxCount; i++) {
+		for (int i=0; i < Constants.MAX_CAMERA_NUMBER; i++) {
 			testVc.open(i);
 			if (testVc.isOpened())
 				camCount++;
 		}
-		return camCount++;
+		return camCount;
 	}
 
 }

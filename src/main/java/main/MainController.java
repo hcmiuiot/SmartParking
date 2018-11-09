@@ -27,8 +27,8 @@ public class MainController implements Initializable {
 		watcher.setDaemon(true);
 		watcher.execute();
 		
-		FXMLLoader loader1 = new FXMLLoader(MainProgram.class.getResource("/TrackingForm.fxml"));
-		FXMLLoader loader2 = new FXMLLoader(MainProgram.class.getResource("/TrackingForm.fxml"));
+		FXMLLoader loader1 = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_TRACKING));
+		FXMLLoader loader2 = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_TRACKING));
 		
 		try {	
 			trackingForm1 = loader1.load();
