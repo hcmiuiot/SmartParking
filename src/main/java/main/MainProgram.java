@@ -30,7 +30,7 @@ public class MainProgram extends Application {
 		primaryStage.setMaximized(true);
 		primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
-//		Database.getInstance(); //Connect 2 DB
+		Database.getInstance(); //Connect 2 DB
 		primaryStage.setOnCloseRequest(event -> {
 			System.out.println("Reach main here");
 			Platform.exit();

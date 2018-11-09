@@ -1,9 +1,17 @@
 package main;
 
+import com.mongodb.Block;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.changestream.ChangeStreamDocument;
+import org.bson.Document;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 
 public class Database {
 	
@@ -29,11 +37,20 @@ public class Database {
 		System.out.println("Connected to " + hostName + "/" + database);
 		return true;
 	}
+
+	private static boolean connect2DB2() {
+		String uri = "mongodb+srv://smart_parking:smart_parking@smartparking-bbfly.mongodb.net/test?retryWrites=true";
+		MongoClient client = MongoClients.create(uri);
+		MongoDatabase db = client.getDatabase("test");
+		MongoCollection collection = db.getCollection("msg");
+		System.out.println(collection.countDocuments());
+		return client != null;
+	}
 	
 	public static Database getInstance() {
 		if (instance == null) {
 			instance = new Database();
-			if (instance.connect2DB() == false) {
+			if (instance.connect2DB2() == false) {
 				System.exit(101);
 			}
 		}
