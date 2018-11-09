@@ -5,6 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="427.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
    <children>
@@ -12,7 +15,21 @@
          <bottom>
             <HBox alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="291.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
-                  <Label fx:id="lblTime" text="Label" />
+                  <Label fx:id="lblTime" text="Have a good day!!!">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="0.5534351581835565" endY="0.4465649218959662" startX="0.5534350928914457" startY="1.0">
+                           <stops>
+                              <Stop color="#0600ff" />
+                              <Stop color="#0600ff" offset="0.007633587786259542" />
+                              <Stop color="#0400ff" offset="0.007633587786259542" />
+                              <Stop color="#d702f8" offset="0.9969465648854962" />
+                              <Stop color="#d900ff" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill></Label>
                </children>
             </HBox>
          </bottom>

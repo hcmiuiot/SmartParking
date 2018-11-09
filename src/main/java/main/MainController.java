@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
 
 public class MainController implements Initializable {
 	@FXML
@@ -19,9 +18,14 @@ public class MainController implements Initializable {
 	private SplitPane splitPane;
 	
 	Parent trackingForm1, trackingForm2;
+
 	
 	public void initialize(URL location, ResourceBundle resources) {
 		ImageProcessing.getInstance();
+
+		DatetimeUpdater watcher = new DatetimeUpdater(lblTime);
+		watcher.setDaemon(true);
+		watcher.execute();
 		
 		FXMLLoader loader1 = new FXMLLoader(MainProgram.class.getResource("/TrackingForm.fxml"));
 		FXMLLoader loader2 = new FXMLLoader(MainProgram.class.getResource("/TrackingForm.fxml"));

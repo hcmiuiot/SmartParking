@@ -29,6 +29,19 @@
             <artifactId>jfx-asynctask</artifactId>
             <version>1.0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bytedeco/javacpp -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hid4java</groupId>
+            <artifactId>hid4java</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+
 
     </dependencies>
 

@@ -95,9 +95,9 @@
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="txtRFID" alignment="CENTER" layoutX="129.0" layoutY="73.0" prefHeight="49.0" prefWidth="253.0" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="50.20000000000002" AnchorPane.topAnchor="73.0">
+                              <JFXTextField fx:id="txtRFID" alignment="CENTER" layoutX="129.0" layoutY="73.0" onAction="#onEnterRFID" prefHeight="49.0" prefWidth="253.0" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="50.20000000000002" AnchorPane.topAnchor="73.0">
                                  <font>
-                                    <Font name="Consolas Bold" size="18.0" />
+                                    <Font name="Consolas Bold" size="20.0" />
                                  </font>
                               </JFXTextField>
                            </children>

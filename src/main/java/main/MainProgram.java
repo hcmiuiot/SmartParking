@@ -11,6 +11,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sun.applet.Main;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainProgram extends Application {
 
 	public static void main(String[] args) {
@@ -26,7 +29,7 @@ public class MainProgram extends Application {
 		primaryStage.setScene(mainScence);
 		primaryStage.setMaximized(true);
 		primaryStage.setTitle("SMART PARKING - HCM-IU - VNU");
-		
+
 //		Database.getInstance(); //Connect 2 DB
 		primaryStage.setOnCloseRequest(event -> {
 			System.out.println("Reach main here");
@@ -34,8 +37,6 @@ public class MainProgram extends Application {
 			System.exit(0);
 		});
 		primaryStage.show();
-
-
 	}
 
 	

@@ -7,15 +7,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TrackingConfigController implements Initializable {
 
 	private TrackingController trackingController = null;
-	
+
 	@FXML
-	private JFXComboBox comboCamera;
+	private JFXComboBox comboFontCamera;
+	@FXML
+	private JFXComboBox comboBehindCamera;
 	
 	@FXML
     private JFXSlider focusWidth;
@@ -52,11 +55,13 @@ public class TrackingConfigController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		comboCamera.getItems().add("Camera 0");
-		comboCamera.getItems().add("Camera 1");
-		comboCamera.getItems().add("Camera 2");
-		comboCamera.getItems().add("Camera 3");
-//		comboCamera.getSelectionModel().select(trackingController.getDeviceIndex());
+		int camCount = ImageProcessing.getNumOfAvailableCamera();
+		for (int i=0; i < camCount; i++) {
+			comboFontCamera.getItems().add("Camera " + i);
+			comboBehindCamera.getItems().add("Camera " + i);
+		}
+//		comboFontCamera.getSelectionModel().select(0);
+//		comboBehindCamera.getSelectionModel().select(0);
 	}
 	
 }

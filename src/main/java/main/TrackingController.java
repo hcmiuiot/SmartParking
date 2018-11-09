@@ -16,11 +16,7 @@ import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class TrackingController {
@@ -37,6 +33,8 @@ public class TrackingController {
 	private ImageView imgCamBehind;
 	@FXML
     private JFXTextField txtPlateNumber;
+	@FXML
+	private JFXTextField txtRFID;
 
 	private ScheduledExecutorService timer;
 	private int deviceIndex = 0;
@@ -83,6 +81,9 @@ public class TrackingController {
 			streamingThread = new StreamingThread(0, imgCamFont);
 			streamingThread2 = new StreamingThread(0, imgCamBehind);
 //
+//            streamingThread.setFps(50);
+//            streamingThread2.setFps(50);
+
 			streamingThread.startStream();
 			streamingThread2.startStream();
 //		});
@@ -114,8 +115,8 @@ public class TrackingController {
 
 	@FXML
 	private void onConfig(ActionEvent event) {
-		streamingThread.stopStream();
-		streamingThread2.stopStream();
+//		streamingThread.stopStream();
+//		streamingThread2.stopStream();
 		FXMLLoader configLoader = new FXMLLoader(getClass().getResource("/TrackingConfigForm.fxml"));
 		try {
 			AnchorPane configDialog = configLoader.load();
@@ -140,8 +141,14 @@ public class TrackingController {
 		focusY = y;
 	}
 
+	@FXML
+	void onEnterRFID(ActionEvent event) {
+		System.out.println("Enter RFID: " + txtRFID.getText());
+		txtRFID.clear();
+	}
 
 //	@Override
+	
 //	public void finalizeStream() throws IOException {
 //		shutdown();
 //	}

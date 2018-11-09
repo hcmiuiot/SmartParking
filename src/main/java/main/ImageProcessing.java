@@ -20,6 +20,7 @@ import org.opencv.ml.SVM;
 import org.opencv.objdetect.HOGDescriptor;
 
 import javafx.scene.image.Image;
+import org.opencv.videoio.VideoCapture;
 
 public class ImageProcessing {
 
@@ -425,6 +426,19 @@ public class ImageProcessing {
 //	public static String getLicensePlateNumber(File imgFileName) {
 //		return getLicensePlateNumber(Imgcodecs.imread(imgFileName.getAbsolutePath()));
 //	}
+
+	public static int getNumOfAvailableCamera() {
+		int maxCount = 10;
+		int camCount = 0;
+		VideoCapture testVc = new VideoCapture();
+		for (int i=0; i < maxCount; i++) {
+			testVc.open(i);
+			if (testVc.isOpened())
+				camCount++;
+		}
+		return camCount++;
+	}
+
 }
 
 class CharacterBox implements Comparable<CharacterBox>{
