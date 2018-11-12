@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sun.applet.Main;
 
+import javax.crypto.Cipher;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class MainProgram extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		System.err.println("Error msg");
 		primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
 		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
 		Parent mainform = loader.load();

@@ -1,6 +1,8 @@
 package main;
 
+import com.google.gson.Gson;
 import com.mongodb.Block;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -9,6 +11,8 @@ import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import org.bson.Document;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -57,4 +61,34 @@ public class Database {
 		return instance;
 	}
 	
+}
+
+class KeyFile {
+	private String uri = "MongoDB_URI";
+	private String database = "MongoDB_Database";
+	private String collection = "MongoDB_Collection";
+	private SecretKey key = null;
+
+	public String getUri() { return uri; }
+	public void setUri(String uri) { this.uri = uri; }
+
+	public String getDatabase() { return database; }
+	public void setDatabase(String database) { this.database = database; }
+
+	public String getCollection() { return collection; }
+	public void setCollection(String collection) { this.collection = collection; }
+
+	public SecretKey getKey() { return key; }
+	public void setKey(SecretKey key) { this.key = key; }
+
+	public KeyFile() {};
+
+	public KeyFile(String keyFileName) {
+
+	}
+
+	public static void genTemplateKeyFile(String keyFileName) {
+		KeyFile templateKey = new KeyFile();
+		//new Gson().toJson(this);
+	}
 }

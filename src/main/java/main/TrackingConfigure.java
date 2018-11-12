@@ -1,13 +1,9 @@
 package main;
 
+import com.JsonFileUtils;
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
-import java.io.*;
 
 public class TrackingConfigure {
-
-    private static Gson gson = new Gson();
 
     private int fontCamId   = 0;
     private int behindCamId = 0;
@@ -42,9 +38,11 @@ public class TrackingConfigure {
     public TrackingConfigure() {}
 
     public TrackingConfigure(String configFileName) {
-        try {
-            JsonReader reader = new JsonReader(new FileReader(configFileName));
-            TrackingConfigure loadedConfig = gson.fromJson(reader, getClass());
+//        try {
+//            JsonReader reader = new JsonReader(new FileReader(configFileName));
+//            TrackingConfigure loadedConfig = gson.fromJson(reader, getClass());
+
+            TrackingConfigure loadedConfig = new JsonFileUtils<TrackingConfigure>(TrackingConfigure.class).load(configFileName);
 
             this.fontCamId = loadedConfig.fontCamId;
             this.behindCamId = loadedConfig.behindCamId;
@@ -53,26 +51,26 @@ public class TrackingConfigure {
             this.focusX = loadedConfig.focusX;
             this.focusY = loadedConfig.focusY;
             this.isFocused = loadedConfig.isFocused;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 
-    public void save(String configFileName) {
-        try {
-            Writer writer = new FileWriter(configFileName);
-            System.out.println(gson.toJson(this));
-            gson.toJson(this, writer);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void save(String configFileName) {
+//        try {
+//            Writer writer = new FileWriter(configFileName);
+//            System.out.println(gson.toJson(this));
+//            gson.toJson(this, writer);
+//            writer.flush();
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public String toString() {
-        return gson.toJson(this);
+        return new Gson().toJson(this);
     }
 
 }
