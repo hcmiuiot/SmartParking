@@ -22,10 +22,10 @@ void setup() {
 
   for (uint8_t reader = 0; reader < NR_OF_READERS; reader++) {
     mfrc522[reader].PCD_Init(ssPins[reader], RST_PIN); // Init each MFRC522 card
-//    Serial.print(F("Reader "));
-//    Serial.print(reader);
-//    Serial.print(F(": "));
-//    mfrc522[reader].PCD_DumpVersionToSerial();
+    Serial.print(F("Reader "));
+    Serial.print(reader);
+    Serial.print(F(": "));
+    mfrc522[reader].PCD_DumpVersionToSerial();
   }
 }
 
@@ -40,7 +40,8 @@ void loop() {
     if (mfrc522[reader].PICC_IsNewCardPresent() && mfrc522[reader].PICC_ReadCardSerial()) {
 //      Serial.print(F("Reader "));
       Serial.print("R");
-      Serial.print(reader,"|");
+      Serial.print(reader);
+      Serial.print(" ");
       // Show some details of the PICC (that is: the tag/card)
 //      Serial.print(F(": Card UID:"));
       dump_byte_array(mfrc522[reader].uid.uidByte, mfrc522[reader].uid.size);
@@ -63,7 +64,7 @@ void loop() {
  */
 void dump_byte_array(byte *buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
-    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
+    Serial.print(buffer[i] < 0x10 ? "0" : "");
     Serial.print(buffer[i], HEX);
   }
 }

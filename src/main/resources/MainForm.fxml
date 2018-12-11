@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="427.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
+<AnchorPane prefHeight="526.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="425.0" prefWidth="456.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <SplitPane fx:id="splitPane" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
          <bottom>
-            <HBox alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="291.0" BorderPane.alignment="CENTER_RIGHT">
+            <AnchorPane prefHeight="35.0" prefWidth="456.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="lblTime" text="Have a good day!!!">
+                  <Label fx:id="lblTime" layoutX="244.0" layoutY="-3.0" text="Have a good day!!!" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                      <font>
                         <Font name="System Bold" size="23.0" />
                      </font>
@@ -29,13 +32,12 @@
                               <Stop color="#d900ff" offset="1.0" />
                            </stops>
                         </LinearGradient>
-                     </textFill></Label>
+                     </textFill>
+                  </Label>
+                  <JFXComboBox layoutX="14.0" layoutY="10.0" prefHeight="34.0" prefWidth="123.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                </children>
-            </HBox>
+            </AnchorPane>
          </bottom>
-         <center>
-            <SplitPane fx:id="splitPane" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-         </center>
       </BorderPane>
    </children>
 </AnchorPane>
