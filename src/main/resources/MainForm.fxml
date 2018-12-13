@@ -34,7 +34,7 @@
                         </LinearGradient>
                      </textFill>
                   </Label>
-                  <JFXComboBox layoutX="14.0" layoutY="10.0" prefHeight="34.0" prefWidth="123.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                  <JFXComboBox fx:id="choosePortComboBox" layoutX="14.0" layoutY="10.0" prefHeight="34.0" prefWidth="184.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
          </bottom>

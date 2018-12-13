@@ -19,52 +19,14 @@ public class MainController implements Initializable {
     @FXML
     private SplitPane splitPane;
     @FXML
-    private JFXComboBox<String> choosePortComboBox;
+    private JFXComboBox<Label> choosePortComboBox;
 
     TrackingController trackingController1;
     TrackingController trackingController2;
-    JSerial mySerial;
 
     Parent trackingForm1, trackingForm2;
 
-    private void RFIDSetup(){
-        SerialPort[] portNames = SerialPort.getCommPorts();
-
-        if (portNames.length > 0) {
-            System.out.println("All available ports: ");
-            for (int i = 0; i < portNames.length; i++){
-//                choosePortComboBox.getItems().add(portNames[i].getSystemPortName());
-                System.out.println(portNames[i].getSystemPortName());
-            }
-
-            mySerial = new JSerial("COM10", 9600);
-            if (mySerial.openConnection()) {
-                System.out.println("Open Successful");
-                Runnable myRunnable =
-                        () -> {
-                            while (true) {
-                                String s = mySerial.serialRead();
-                                if (s.length() > 0){
-                                    System.out.println(s );
-                                    String arr[] = s.split(" ");
-                                    if (arr[0].equals("R0")){
-                                        trackingController1.setTextRFID(arr[1].replace(" ", ""));
-                                    } else if(arr[0].equals("R1")){
-                                        trackingController2.setTextRFID(arr[1].replace(" ", ""));
-                                    }
-                                }
-                            }
-                        };
-                Thread thread = new Thread(myRunnable);
-                thread.start();
-            } else {
-                System.out.println("Open Failed");
-            }
-
-        } else {
-            System.out.println("No available serial port");
-        }
-    }
+    RFIDHandler rfidHandler;
 
     public void initialize(URL location, ResourceBundle resources) {
         ImageProcessing.getInstance();
@@ -90,6 +52,8 @@ public class MainController implements Initializable {
         splitPane.getItems().add(trackingForm2);
 
         //RFIDHandler
-        this.RFIDSetup();
+        this.rfidHandler = new RFIDHandler(trackingController1, trackingController2, choosePortComboBox);
+        this.rfidHandler.refreshPortList();
     }
+
 }

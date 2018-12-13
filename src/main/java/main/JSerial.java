@@ -21,6 +21,9 @@ public class JSerial {
         this.baud_rate = baud_rate;
         comPort.setBaudRate(this.baud_rate);
     }
+    public JSerial(){
+
+    }
 
     public boolean openConnection() {
         if (this.comPort.openPort()) {
