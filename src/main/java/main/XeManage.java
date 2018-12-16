@@ -9,13 +9,6 @@ public class XeManage {
     private static ArrayList<Xe> listOfParkingXe = new ArrayList<>();
 
     private XeManage() {
-        try {
-            listOfParkingXe.add(new Xe("ABCABCDE", null, null, "63B366659", MainProgram.getSimpleDateFormat().parse("10-12-2018 12:00:24")));
-            listOfParkingXe.add(new Xe("12A2A81A", null, null, "79N43225", MainProgram.getSimpleDateFormat().parse("15-12-2018 18:02:33")));
-            listOfParkingXe.add(new Xe("12345678", null, null, "79N421138", MainProgram.getSimpleDateFormat().parse("13-12-2018 19:01:12")));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     //Thread Safe getInstance
@@ -49,7 +42,7 @@ public class XeManage {
     }
 
     public static long calculateParkingFee(Long duration) {
-        return duration * MainProgram.FEE_PER_HOUR;
+        return duration * Constants.FEE_PER_HOUR;
     }
 
     public void moveXeToOtherList(Xe xe){

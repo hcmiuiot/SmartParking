@@ -7,6 +7,7 @@ public class Constants {
     public final static String  APPLICATION_TITLE = "SMART PARKING - HCM-IU - VNU";
 
     public final static String  LOGO_FILENAME = "hcmiulogo.png";
+    public final static String  DEFAULT_IMG_DIR = "default-image.jpg";
 
     public final static int     MAX_CAMERA_NUMBER = 10;
 
@@ -22,4 +23,6 @@ public class Constants {
     public static final int     THRESHOLD_C = 0;
     public static final int     MORPHOLOGY_SIZE = 2;
     public static final int     SZ = 20;
+
+    public static final long    FEE_PER_HOUR = 2000;
 }

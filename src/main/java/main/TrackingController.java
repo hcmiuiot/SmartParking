@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -60,6 +61,7 @@ public class TrackingController implements Initializable {
     @FXML
     private JFXButton btn_cancel;
 
+    private Image defaultImg = new Image("/" + Constants.DEFAULT_IMG_DIR);
     private Date timeIn;
     private Date timeOut;
     private Xe currentXe;
@@ -102,20 +104,6 @@ public class TrackingController implements Initializable {
         });
     }
 
-    private void enterOutBtn_changeToGreen() {
-        this.enterOutBtn.setText("Enter");
-        this.enterOutBtn.setStyle("-fx-background-color:  #4CAF50;");
-    }
-
-    private void enterOutBtn_changeToRed() {
-        this.enterOutBtn.setText("Out");
-        this.enterOutBtn.setStyle("-fx-background-color:  #D32F2F;");
-    }
-
-    private void enterOutBtn_changeToYellow() {
-        this.enterOutBtn.setText("Check");
-        this.enterOutBtn.setStyle("-fx-background-color:  #F57C00;");
-    }
 
     public void changeToWaitingMode() {
         state = 0;
@@ -140,13 +128,16 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
+        imgFont.setImage(imgCamFont.getImage());
+        imgBehind.setImage(imgCamBehind.getImage());
+
         timeIn = new Date();
         lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
         lbl_parkingDuration.setText("0");
         lbl_parkingFee.setText("0 VND");
     }
 
-    public void changeToConfirm_OutMode(Date timeIn, String plateNumber) {
+    public void changeToConfirm_OutMode(Xe inputXe) {
         state = 2;
         enterOutBtn_changeToRed();
         txtPlateNumber.setDisable(true);
@@ -156,13 +147,18 @@ public class TrackingController implements Initializable {
         timeOut = new Date();
         long duration = getDateDiff(timeIn, timeOut, TimeUnit.HOURS);
 
-        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(currentXe.getTimeIn()));
-        txtPlateNumber.setText(currentXe.getPlateNumber());
+        imgFont.setImage(inputXe.getFrontImg());
+        imgBehind.setImage(inputXe.getPlateImg());
+
+
+        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(inputXe.getTimeIn()));
+        txtPlateNumber.setText(inputXe.getPlateNumber());
         lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
         lbl_parkingDuration.setText(duration + " Hours");
         lbl_parkingFee.setText(XeManage.getInstance().calculateParkingFee(duration) + " VND");
     }
 
+    // Stupid code when hungry here... I'm starving now
     @FXML
     void enterOutBtn_onAction(ActionEvent event) {
         if (state == 0) {
@@ -170,21 +166,24 @@ public class TrackingController implements Initializable {
             enterOutBtn.setText("...");
             currentXe = XeManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
             if (currentXe != null) {
-                changeToConfirm_OutMode(currentXe.getTimeIn(), currentXe.getPlateNumber());
+                changeToConfirm_OutMode(currentXe);
             } else {
                 changeToConfirm_EnterMode();
             }
         } else if (state == 1) {
             currentXe = new Xe(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
             XeManage.addXe(currentXe);
-            System.out.println(currentXe);
+            System.out.println(currentXe + " IN");
             currentXe = null;
             changeToWaitingMode();
+            resetImg();
         } else if (state == 2) {
             currentXe.changeStutusToLeft();
             XeManage.getInstance().moveXeToOtherList(currentXe);
+            System.out.println(currentXe + " OUT");
             currentXe = null;
             changeToWaitingMode();
+            resetImg();
         }
     }
 
@@ -301,6 +300,27 @@ public class TrackingController implements Initializable {
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = date2.getTime() - date1.getTime();
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
+
+    private void enterOutBtn_changeToGreen() {
+        this.enterOutBtn.setText("Enter");
+        this.enterOutBtn.setStyle("-fx-background-color:  #4CAF50;");
+    }
+
+    private void enterOutBtn_changeToRed() {
+        this.enterOutBtn.setText("Out");
+        this.enterOutBtn.setStyle("-fx-background-color:  #D32F2F;");
+    }
+
+    private void enterOutBtn_changeToYellow() {
+        this.enterOutBtn.setText("Check");
+        this.enterOutBtn.setStyle("-fx-background-color:  #F57C00;");
+    }
+
+    private void resetImg(){
+        imgBehind.setImage(defaultImg);
+        imgFont.setImage(defaultImg);
     }
 
 

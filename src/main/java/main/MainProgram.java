@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainProgram extends Application {
-    public static long FEE_PER_HOUR = 2000;
+
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public static void main(String[] args) {
