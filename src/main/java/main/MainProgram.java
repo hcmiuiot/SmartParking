@@ -16,30 +16,36 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainProgram extends Application {
+    public static long FEE_PER_HOUR = 2000;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		System.err.println("Error msg");
-		primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
-		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
-		Parent mainform = loader.load();
-		Scene mainScence = new Scene(mainform);
-		primaryStage.setScene(mainScence);
-		primaryStage.setMaximized(true);
-		primaryStage.setTitle(Constants.APPLICATION_TITLE);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        System.err.println("Error msg");
+        primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
+        FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
+        Parent mainform = loader.load();
+        Scene mainScence = new Scene(mainform);
+        primaryStage.setScene(mainScence);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
-		Database.getInstance(); //Connect 2 DB
-		primaryStage.setOnCloseRequest(event -> {
-			System.out.println("Reach main here");
-			Platform.exit();
-			System.exit(0);
-		});
-		primaryStage.show();
-	}
+//		Database.getInstance(); //Connect 2 DB
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Reach main here");
+            Platform.exit();
+            System.exit(0);
+        });
+        primaryStage.show();
+    }
 
-	
+    public static SimpleDateFormat getSimpleDateFormat() {
+        return sdf;
+    }
+
+
 }

@@ -2,7 +2,6 @@ package main;
 
 import javafx.scene.image.Image;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Xe {
@@ -10,10 +9,9 @@ public class Xe {
     private Image frontImg;
     private Image plateImg;
     private String plateNumber;
-    private Boolean status;
+    private Boolean status; // 1 - parking ; 0 - left
     private Date timeIn;
-    private String timestampInString;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    private Date timeOut;
 
     public Xe(String rfidNumber, Image frontImg, Image plateImg, String plateNumber, Date timeIn) {
         this.rfidNumber = rfidNumber;
@@ -21,7 +19,16 @@ public class Xe {
         this.plateImg = plateImg;
         this.plateNumber = plateNumber;
         this.timeIn = timeIn;
-        this.timestampInString = sdf.format(timeIn);
+        this.status = true;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(rfidNumber).append(" ");
+        builder.append(plateNumber).append(" ");
+        builder.append(MainProgram.getSimpleDateFormat().format(timeIn)).append(" ");
+        return builder.toString();
     }
 
     public Image getFrontImg() {
@@ -67,8 +74,15 @@ public class Xe {
     public Boolean getStatus() {
         return status;
     }
+    public void changeStutusToLeft(){
+        this.status = false;
+    }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Date getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(Date timeOut) {
+        this.timeOut = timeOut;
     }
 }

@@ -1,12 +1,15 @@
 package main;
 
 import Camera.CameraStreamer;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -16,10 +19,14 @@ import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
-public class TrackingController {
+public class TrackingController implements Initializable {
 
     @FXML
     private ImageView imgFont;
@@ -35,6 +42,33 @@ public class TrackingController {
     private JFXTextField txtPlateNumber;
     @FXML
     private JFXTextField txtRFID;
+    @FXML
+    private JFXButton enterOutBtn;
+
+    @FXML
+    private Label lbl_checkInTime;
+
+    @FXML
+    private Label lbl_checkOutTime;
+
+    @FXML
+    private Label lbl_parkingDuration;
+
+    @FXML
+    private Label lbl_parkingFee;
+
+    @FXML
+    private JFXButton btn_cancel;
+
+    private Date timeIn;
+    private Date timeOut;
+    private Xe currentXe;
+    /**
+     * 0 - Waiting
+     * 1 - Entering
+     * 2 - Outing
+     */
+    private byte state = 0;
 
     private ScheduledExecutorService timer;
     private int deviceIndex = 0;
@@ -42,11 +76,117 @@ public class TrackingController {
     private Mat frame;
     private Mat m1;
 
-    //public void initialize(URL location, ResourceBundle resources) {
-    //setDeviceIndex(0);
-    //startLiveVideo();
-    // stopLiveVideo();
-    //}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        changeToWaitingMode();
+//        changeToConfirm_EnterMode();
+//        changeToConfirm_OutMode();
+
+        txtRFID.textProperty().addListener((observable, oldValue, newValue) -> {
+            // For test purpose
+//            if (newValue.equals("AAAAAAAA")){
+//                changeToConfirm_EnterMode();
+//            }
+//            if (newValue.equals("BBBBBBBB")){
+//                changeToConfirm_OutMode();
+//            }
+            // Real purpose
+            if (RFIDHandler.checkValidRFID(newValue.toUpperCase())) {
+                System.out.println("Valid RFID");
+                enterOutBtn.setDisable(false);
+                enterOutBtn.fire();
+            } else {
+                enterOutBtn.setDisable(true);
+            }
+//            System.out.println("textfield changed from " + oldValue + " to " + newValue);
+        });
+    }
+
+    private void enterOutBtn_changeToGreen() {
+        this.enterOutBtn.setText("Enter");
+        this.enterOutBtn.setStyle("-fx-background-color:  #4CAF50;");
+    }
+
+    private void enterOutBtn_changeToRed() {
+        this.enterOutBtn.setText("Out");
+        this.enterOutBtn.setStyle("-fx-background-color:  #D32F2F;");
+    }
+
+    private void enterOutBtn_changeToYellow() {
+        this.enterOutBtn.setText("Check");
+        this.enterOutBtn.setStyle("-fx-background-color:  #F57C00;");
+    }
+
+    public void changeToWaitingMode() {
+        state = 0;
+        enterOutBtn_changeToYellow();
+        txtPlateNumber.setDisable(true);
+        txtRFID.setDisable(false);
+        btn_cancel.setDisable(true);
+
+        txtPlateNumber.setText("");
+        txtRFID.setText("");
+
+        lbl_checkInTime.setText("-");
+        lbl_checkOutTime.setText("-");
+        lbl_parkingDuration.setText("-");
+        lbl_parkingFee.setText("- VND");
+    }
+
+    public void changeToConfirm_EnterMode() {
+        state = 1;
+        enterOutBtn_changeToGreen();
+        txtPlateNumber.setDisable(false);
+        txtRFID.setDisable(true);
+        btn_cancel.setDisable(false);
+
+        timeIn = new Date();
+        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
+        lbl_parkingDuration.setText("0");
+        lbl_parkingFee.setText("0 VND");
+    }
+
+    public void changeToConfirm_OutMode(Date timeIn, String plateNumber) {
+        state = 2;
+        enterOutBtn_changeToRed();
+        txtPlateNumber.setDisable(true);
+        txtRFID.setDisable(true);
+        btn_cancel.setDisable(false);
+
+        timeOut = new Date();
+        long duration = getDateDiff(timeIn, timeOut, TimeUnit.HOURS);
+
+        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(currentXe.getTimeIn()));
+        txtPlateNumber.setText(currentXe.getPlateNumber());
+        lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
+        lbl_parkingDuration.setText(duration + " Hours");
+        lbl_parkingFee.setText(XeManage.getInstance().calculateParkingFee(duration) + " VND");
+    }
+
+    @FXML
+    void enterOutBtn_onAction(ActionEvent event) {
+        if (state == 0) {
+            System.out.println(txtRFID.getText());
+            enterOutBtn.setText("...");
+            currentXe = XeManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
+            if (currentXe != null) {
+                changeToConfirm_OutMode(currentXe.getTimeIn(), currentXe.getPlateNumber());
+            } else {
+                changeToConfirm_EnterMode();
+            }
+        } else if (state == 1) {
+            currentXe = new Xe(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
+            XeManage.addXe(currentXe);
+            System.out.println(currentXe);
+            currentXe = null;
+            changeToWaitingMode();
+        } else if (state == 2) {
+            currentXe.changeStutusToLeft();
+            XeManage.getInstance().moveXeToOtherList(currentXe);
+            currentXe = null;
+            changeToWaitingMode();
+        }
+    }
 
     @FXML
     void onTest(ActionEvent event) {
@@ -149,9 +289,20 @@ public class TrackingController {
         txtRFID.clear();
     }
 
-    public void setTextRFID(String textRFID){
+    @FXML
+    void cancelSession(ActionEvent event) {
+        changeToWaitingMode();
+    }
+
+    public void setTextRFID(String textRFID) {
         this.txtRFID.setText(textRFID);
     }
+
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
 
 //	@Override
 //	public void finalizeStream() throws IOException {

@@ -51,16 +51,28 @@ public class RFIDHandler {
         }
     }
 
-    public void connectPort() {
+    public static Boolean checkValidRFID(String RFIDNumber) {
+        if (RFIDNumber.length() < 8) {
+            return false;
+        }
+        for (int i = 0; i < 8; i++) {
+            if (RFIDNumber.toUpperCase().charAt(i) > 'F')
+                return false;
+        }
+        return true;
+    }
+
+    public Boolean connectPort() {
         mySerial = new JSerial(choosePortComboBox.getValue().getText(), 9600);
         if (mySerial.openConnection()) {
             this.portStatus = true;
         } else {
             this.portStatus = false;
         }
+        return portStatus;
     }
 
-    public void closePort(){
+    public void closePort() {
         mySerial.closeConnection();
         portStatus = false;
     }

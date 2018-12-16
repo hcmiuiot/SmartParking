@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import com.fazecast.jSerialComm.SerialPort;
@@ -20,6 +21,8 @@ public class MainController implements Initializable {
     private SplitPane splitPane;
     @FXML
     private JFXComboBox<Label> choosePortComboBox;
+
+
 
     TrackingController trackingController1;
     TrackingController trackingController2;
@@ -55,5 +58,6 @@ public class MainController implements Initializable {
         this.rfidHandler = new RFIDHandler(trackingController1, trackingController2, choosePortComboBox);
         this.rfidHandler.refreshPortList();
     }
+
 
 }
