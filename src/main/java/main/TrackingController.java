@@ -328,8 +328,11 @@ public class TrackingController implements Initializable {
         imgFont.setImage(defaultImg);
     }
 
+    public byte getState() {
+        return state;
+    }
 
-//	@Override
+    //	@Override
 //	public void finalizeStream() throws IOException {
 //		shutdown();
 //	}

@@ -8,7 +8,9 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import com.fazecast.jSerialComm.SerialPort;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,12 @@ public class MainController implements Initializable {
     private SplitPane splitPane;
     @FXML
     private JFXComboBox<Label> choosePortComboBox;
+    @FXML
+    private JFXButton btn_rfidConnect;
+    @FXML
+    private JFXButton btn_rfidStop;
+    @FXML
+    private JFXButton btn_rfidRefresh;
 
     private ArrayList<SerialPort> portNames = new ArrayList<>();
     private JSerial mySerial = new JSerial();
@@ -35,9 +43,12 @@ public class MainController implements Initializable {
 
     Parent trackingForm1, trackingForm2;
 
-    RFIDHandler rfidHandler;
-
     public void initialize(URL location, ResourceBundle resources) {
+        choosePortComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+                    btn_rfidConnect.setDisable(false);
+                }
+        );
+
         ImageProcessing.getInstance();
 
         DatetimeUpdater watcher = new DatetimeUpdater(lblTime);
@@ -66,8 +77,14 @@ public class MainController implements Initializable {
 
     @FXML
     void onRFIDConnectAction(ActionEvent event) {
-        this.connectPort();
-        this.start();
+
+        if (this.connectPort()) {
+            Platform.runLater(() -> {
+                btn_rfidConnect.setDisable(true);
+                btn_rfidStop.setDisable(false);
+            });
+            this.start();
+        }
     }
 
     @FXML
@@ -75,11 +92,23 @@ public class MainController implements Initializable {
         this.refreshPortList();
     }
 
+    @FXML
+    void onRFIDStopAction(ActionEvent event) {
+        this.closePort();
+        this.refreshPortList();
+        Platform.runLater(() -> {
+            btn_rfidConnect.setDisable(false);
+            btn_rfidStop.setDisable(true);
+        });
+    }
+
+
     private void refreshPortList() {
         choosePortComboBox.getItems().clear();
         portNames = new ArrayList<>(Arrays.asList(SerialPort.getCommPorts()));
         if (portNames.size() > 0) {
             System.out.println("All available ports: ");
+            choosePortComboBox.setPromptText("---Choose Port---");
             for (int i = 0; i < portNames.size(); i++) {
                 choosePortComboBox.getItems().add(new Label(portNames.get(i).getSystemPortName()));
                 System.out.println(portNames.get(i).getSystemPortName());
@@ -116,9 +145,17 @@ public class MainController implements Initializable {
 //                            System.out.println(s);
                             String arr[] = s.split(" ");
                             if (arr[0].equals("R0")) {
-                                trackingController1.setTextRFID(arr[1].replace(" ", ""));
+                                if (trackingController1.getState() == 0) {
+                                    Platform.runLater(() -> {
+                                        trackingController1.setTextRFID(arr[1].replace(" ", ""));
+                                    });
+                                }
                             } else if (arr[0].equals("R1")) {
-                                trackingController2.setTextRFID(arr[1].replace(" ", ""));
+                                if (trackingController2.getState() == 0) {
+                                    Platform.runLater(() -> {
+                                        trackingController2.setTextRFID(arr[1].replace(" ", ""));
+                                    });
+                                }
                             }
                         }
                     }
