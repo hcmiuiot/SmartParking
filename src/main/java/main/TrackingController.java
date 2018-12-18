@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
+import sun.awt.PlatformFont;
 
 import java.io.File;
 import java.io.IOException;
@@ -81,24 +82,21 @@ public class TrackingController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         changeToWaitingMode();
-//        changeToConfirm_EnterMode();
-//        changeToConfirm_OutMode();
 
         txtRFID.textProperty().addListener((observable, oldValue, newValue) -> {
-            // For test purpose
-//            if (newValue.equals("AAAAAAAA")){
-//                changeToConfirm_EnterMode();
-//            }
-//            if (newValue.equals("BBBBBBBB")){
-//                changeToConfirm_OutMode();
-//            }
             // Real purpose
             if (RFIDHandler.checkValidRFID(newValue.toUpperCase())) {
-                System.out.println("Valid RFID");
-                enterOutBtn.setDisable(false);
-                enterOutBtn.fire();
+                Platform.runLater(() -> {
+                    System.out.println("Valid RFID");
+                    enterOutBtn.setDisable(false);
+                    enterOutBtn.fire();
+                });
+                // NullPointerException...
+//                enterOutBtn.fire();
             } else {
-                enterOutBtn.setDisable(true);
+                Platform.runLater(() -> {
+                    enterOutBtn.setDisable(true);
+                });
             }
 //            System.out.println("textfield changed from " + oldValue + " to " + newValue);
         });
@@ -128,10 +126,14 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        imgFont.setImage(imgCamFont.getImage());
-        imgBehind.setImage(imgCamBehind.getImage());
+        currentXe.setFrontImg(imgCamFont.getImage());
+        currentXe.setPlateImg(imgCamBehind.getImage());
+        currentXe.setTimeIn(new Date());
 
-        timeIn = new Date();
+        imgFont.setImage(currentXe.getFrontImg());
+        imgBehind.setImage(currentXe.getPlateImg());
+        timeIn = currentXe.getTimeIn();
+
         lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
         lbl_parkingDuration.setText("0");
         lbl_parkingFee.setText("0 VND");
@@ -144,21 +146,20 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        timeOut = new Date();
-        long duration = getDateDiff(timeIn, timeOut, TimeUnit.HOURS);
-
         imgFont.setImage(inputXe.getFrontImg());
         imgBehind.setImage(inputXe.getPlateImg());
+        timeIn = currentXe.getTimeIn();
+        timeOut = new Date();
+        long duration = getDateDiff(inputXe.getTimeIn(), timeOut, TimeUnit.HOURS);
 
 
-        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(inputXe.getTimeIn()));
         txtPlateNumber.setText(inputXe.getPlateNumber());
+        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
         lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
         lbl_parkingDuration.setText(duration + " Hours");
         lbl_parkingFee.setText(XeManage.getInstance().calculateParkingFee(duration) + " VND");
     }
 
-    // Stupid code when hungry here... I'm starving now
     @FXML
     void enterOutBtn_onAction(ActionEvent event) {
         if (state == 0) {
@@ -166,12 +167,16 @@ public class TrackingController implements Initializable {
             enterOutBtn.setText("...");
             currentXe = XeManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
             if (currentXe != null) {
-                changeToConfirm_OutMode(currentXe);
+                Platform.runLater(() -> {
+                    changeToConfirm_OutMode(currentXe);
+                });
             } else {
-                changeToConfirm_EnterMode();
+                Platform.runLater(() -> {
+                    changeToConfirm_EnterMode();
+                });
             }
         } else if (state == 1) {
-            currentXe = new Xe(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
+//            currentXe = new Xe(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
             XeManage.addXe(currentXe);
             System.out.println(currentXe + " IN");
             currentXe = null;
@@ -318,7 +323,7 @@ public class TrackingController implements Initializable {
         this.enterOutBtn.setStyle("-fx-background-color:  #F57C00;");
     }
 
-    private void resetImg(){
+    private void resetImg() {
         imgBehind.setImage(defaultImg);
         imgFont.setImage(defaultImg);
     }
