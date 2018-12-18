@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,8 +23,22 @@
                         <Font name="System Bold" size="23.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="choosePortComboBox" layoutX="14.0" layoutY="10.0" prefHeight="34.0" prefWidth="184.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                  <JFXButton layoutX="194.0" layoutY="10.0" prefHeight="34.0" prefWidth="77.0" text="Connect" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="5.0" />
+                  <JFXComboBox fx:id="choosePortComboBox" layoutX="76.0" layoutY="5.0" prefHeight="34.0" prefWidth="184.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="76.0" AnchorPane.topAnchor="5.0" />
+                  <JFXButton contentDisplay="CENTER" layoutX="266.0" layoutY="5.0" onAction="#onRFIDConnectAction" prefHeight="34.0" prefWidth="36.0" text=" " textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="5.0">
+                     <graphic>
+                        <FontAwesomeIconView fill="#4caf50" glyphName="PLAY" size="16" />
+                     </graphic></JFXButton>
+                  <JFXButton contentDisplay="CENTER" layoutX="302.0" layoutY="5.0" onAction="#onRFIDConnectAction" prefHeight="34.0" prefWidth="36.0" text=" " textAlignment="CENTER" AnchorPane.leftAnchor="300.0">
+                     <graphic>
+                        <FontAwesomeIconView disable="true" fill="#d32f2f" glyphName="STOP" size="16" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton alignment="CENTER" contentDisplay="CENTER" layoutX="345.0" layoutY="5.0" onAction="#onRFIDRefreshAction" prefHeight="34.0" prefWidth="32.0" text=" " textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="5.0">
+                     <graphic>
+                        <FontAwesomeIconView fill="#f57c00" glyphName="REFRESH" size="16" />
+                     </graphic>
+                  </JFXButton>
+                  <Label layoutX="14.0" layoutY="15.0" text="RFID Client" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
          </bottom>
