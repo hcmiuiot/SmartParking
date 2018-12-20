@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 import java.util.Date;
 
-public class Xe {
+public class Vehicle {
     private String rfidNumber;
     private Image frontImg;
     private Image plateImg;
@@ -13,7 +13,7 @@ public class Xe {
     private Date timeIn;
     private Date timeOut;
 
-    public Xe(String rfidNumber, Image frontImg, Image plateImg, String plateNumber, Date timeIn) {
+    public Vehicle(String rfidNumber, Image frontImg, Image plateImg, String plateNumber, Date timeIn) {
         this.rfidNumber = rfidNumber;
         this.frontImg = frontImg;
         this.plateImg = plateImg;

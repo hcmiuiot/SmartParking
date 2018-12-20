@@ -17,7 +17,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
-import sun.awt.PlatformFont;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +64,7 @@ public class TrackingController implements Initializable {
     private Image defaultImg = new Image("/" + Constants.DEFAULT_IMG_DIR);
     private Date timeIn;
     private Date timeOut;
-    private Xe currentXe;
+    private Vehicle currentVehicle;
     /**
      * 0 - Waiting
      * 1 - Entering
@@ -126,38 +125,38 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        currentXe.setFrontImg(imgCamFont.getImage());
-        currentXe.setPlateImg(imgCamBehind.getImage());
-        currentXe.setTimeIn(new Date());
+        currentVehicle.setFrontImg(imgCamFont.getImage());
+        currentVehicle.setPlateImg(imgCamBehind.getImage());
+        currentVehicle.setTimeIn(new Date());
 
-        imgFont.setImage(currentXe.getFrontImg());
-        imgBehind.setImage(currentXe.getPlateImg());
-        timeIn = currentXe.getTimeIn();
+        imgFont.setImage(currentVehicle.getFrontImg());
+        imgBehind.setImage(currentVehicle.getPlateImg());
+        timeIn = currentVehicle.getTimeIn();
 
         lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
         lbl_parkingDuration.setText("0");
         lbl_parkingFee.setText("0 VND");
     }
 
-    public void changeToConfirm_OutMode(Xe inputXe) {
+    public void changeToConfirm_OutMode(Vehicle inputVehicle) {
         state = 2;
         enterOutBtn_changeToRed();
         txtPlateNumber.setDisable(true);
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        imgFont.setImage(inputXe.getFrontImg());
-        imgBehind.setImage(inputXe.getPlateImg());
-        timeIn = currentXe.getTimeIn();
+        imgFont.setImage(inputVehicle.getFrontImg());
+        imgBehind.setImage(inputVehicle.getPlateImg());
+        timeIn = currentVehicle.getTimeIn();
         timeOut = new Date();
-        long duration = getDateDiff(inputXe.getTimeIn(), timeOut, TimeUnit.HOURS);
+        long duration = getDateDiff(inputVehicle.getTimeIn(), timeOut, TimeUnit.HOURS);
 
 
-        txtPlateNumber.setText(inputXe.getPlateNumber());
+        txtPlateNumber.setText(inputVehicle.getPlateNumber());
         lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
         lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
         lbl_parkingDuration.setText(duration + " Hours");
-        lbl_parkingFee.setText(XeManage.getInstance().calculateParkingFee(duration) + " VND");
+        lbl_parkingFee.setText(VehicleManage.getInstance().calculateParkingFee(duration) + " VND");
     }
 
     @FXML
@@ -165,10 +164,10 @@ public class TrackingController implements Initializable {
         if (state == 0) {
             System.out.println(txtRFID.getText());
             enterOutBtn.setText("...");
-            currentXe = XeManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
-            if (currentXe != null) {
+            currentVehicle = VehicleManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
+            if (currentVehicle != null) {
                 Platform.runLater(() -> {
-                    changeToConfirm_OutMode(currentXe);
+                    changeToConfirm_OutMode(currentVehicle);
                 });
             } else {
                 Platform.runLater(() -> {
@@ -176,17 +175,17 @@ public class TrackingController implements Initializable {
                 });
             }
         } else if (state == 1) {
-//            currentXe = new Xe(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
-            XeManage.addXe(currentXe);
-            System.out.println(currentXe + " IN");
-            currentXe = null;
+//            currentVehicle = new Vehicle(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
+            VehicleManage.addXe(currentVehicle);
+            System.out.println(currentVehicle + " IN");
+            currentVehicle = null;
             changeToWaitingMode();
             resetImg();
         } else if (state == 2) {
-            currentXe.changeStutusToLeft();
-            XeManage.getInstance().moveXeToOtherList(currentXe);
-            System.out.println(currentXe + " OUT");
-            currentXe = null;
+            currentVehicle.changeStutusToLeft();
+            VehicleManage.getInstance().moveXeToOtherList(currentVehicle);
+            System.out.println(currentVehicle + " OUT");
+            currentVehicle = null;
             changeToWaitingMode();
             resetImg();
         }

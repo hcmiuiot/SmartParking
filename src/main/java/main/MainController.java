@@ -140,7 +140,13 @@ public class MainController implements Initializable {
                     System.out.println(cancelled);
                     System.out.println(portStatus);
                     while (!cancelled && portStatus) {
-                        String s = mySerial.serialRead();
+                        String s = "";
+                        try {
+                            s = mySerial.serialRead();
+                        } catch (Exception e) {
+                            btn_rfidStop.fire();
+                            System.err.println("RFID Disconnected");
+                        }
                         if (s.length() > 0) {
 //                            System.out.println(s);
                             String arr[] = s.split(" ");
