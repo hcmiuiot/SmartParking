@@ -22,7 +22,7 @@ public class VehicleManage {
         return instance;
     }
 
-    public static Boolean isExistRfidFromParkingList(String RFIDNumber) {
+    public static Boolean checkExistRfidFromParkingList(String RFIDNumber) {
         for (int i = listOfParkingVehicle.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that Vehicle is parking
             if (listOfParkingVehicle.get(i).getRfidNumber().toUpperCase().equals(RFIDNumber.toUpperCase()) && listOfParkingVehicle.get(i).getStatus() == true)
@@ -31,7 +31,7 @@ public class VehicleManage {
         return false;
     }
 
-    public static Vehicle getXeByRfidFromParkingList(String RFIDNumber) {
+    public static Vehicle getVehicleByRfidFromParkingList(String RFIDNumber) {
         for (int i = listOfParkingVehicle.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that Vehicle is parking
             if (listOfParkingVehicle.get(i).getRfidNumber().toUpperCase().equals(RFIDNumber.toUpperCase()) && listOfParkingVehicle.get(i).getStatus() == true)
@@ -44,7 +44,7 @@ public class VehicleManage {
         return duration * Constants.FEE_PER_HOUR;
     }
 
-    public void moveXeToOtherList(Vehicle vehicle){
+    public void moveVehicleToOtherList(Vehicle vehicle){
         for (int i = listOfParkingVehicle.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that Vehicle is parking
             if (listOfParkingVehicle.get(i).getRfidNumber().toUpperCase().equals(vehicle.getRfidNumber().toUpperCase()) && listOfParkingVehicle.get(i).getStatus() == true){
@@ -55,7 +55,7 @@ public class VehicleManage {
         }
     }
 
-    public static void addXe(Vehicle newVehicle) {
+    public static void addVehicle(Vehicle newVehicle) {
         listOfParkingVehicle.add(newVehicle);
     }
 

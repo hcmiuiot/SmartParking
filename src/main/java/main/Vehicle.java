@@ -7,16 +7,17 @@ import java.util.Date;
 public class Vehicle {
     private String rfidNumber;
     private Image frontImg;
+    private Image backImg;
     private Image plateImg;
     private String plateNumber;
     private Boolean status; // 1 - parking ; 0 - left
     private Date timeIn;
     private Date timeOut;
 
-    public Vehicle(String rfidNumber, Image frontImg, Image plateImg, String plateNumber, Date timeIn) {
+    public Vehicle(String rfidNumber, Image frontImg, Image backImg, String plateNumber, Date timeIn) {
         this.rfidNumber = rfidNumber;
         this.frontImg = frontImg;
-        this.plateImg = plateImg;
+        this.plateImg = backImg;
         this.plateNumber = plateNumber;
         this.timeIn = timeIn;
         this.status = true;
@@ -25,9 +26,9 @@ public class Vehicle {
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        builder.append(rfidNumber).append(" ");
+        builder.append(MainProgram.getSimpleDateFormat().format(timeIn)).append(", ");
+        builder.append(rfidNumber).append(", ");
         builder.append(plateNumber).append(" ");
-        builder.append(MainProgram.getSimpleDateFormat().format(timeIn)).append(" ");
         return builder.toString();
     }
 
@@ -74,7 +75,7 @@ public class Vehicle {
     public Boolean getStatus() {
         return status;
     }
-    public void changeStutusToLeft(){
+    public void changeStatusToLeft(){
         this.status = false;
     }
 
@@ -84,5 +85,13 @@ public class Vehicle {
 
     public void setTimeOut(Date timeOut) {
         this.timeOut = timeOut;
+    }
+
+    public Image getBackImg() {
+        return backImg;
+    }
+
+    public void setBackImg(Image backImg) {
+        this.backImg = backImg;
     }
 }

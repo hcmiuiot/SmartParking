@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -21,17 +22,20 @@
                <children>
                   <AnchorPane prefHeight="752.0" prefWidth="430.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fx:id="imgFont" fitHeight="300.0" fitWidth="400.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
+                        <ImageView fx:id="imgFont" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
                            <image>
                               <Image url="@default-image.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgBehind" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="320.0">
+                        <ImageView fx:id="imgBack" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="320.0">
                            <image>
                               <Image url="@default-image.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgPlate" fitHeight="131.0" fitWidth="400.0" layoutX="11.0" layoutY="631.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="631.0" />
+                        <ImageView fx:id="imgPlate" fitHeight="131.0" fitWidth="400.0" layoutX="18.0" layoutY="631.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="631.0">
+                           <image>
+                              <Image url="@default-image_plate.jpg" />
+                           </image></ImageView>
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="750.0" prefWidth="413.0" HBox.hgrow="ALWAYS">
@@ -41,17 +45,23 @@
                               <Image url="@default-image.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgCamBehind" fitHeight="300.0" fitWidth="400.0" layoutX="19.0" layoutY="310.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="320.0">
+                        <ImageView fx:id="imgCamBack" fitHeight="300.0" fitWidth="400.0" layoutY="319.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="319.0">
                            <image>
                               <Image url="@default-image.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="imgPlate1" fitHeight="131.0" fitWidth="400.0" layoutX="33.0" layoutY="631.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="631.0" />
+                        <ImageView fx:id="imgCamPlate" fitHeight="131.0" fitWidth="400.0" layoutY="631.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="631.0">
+                           <image>
+                              <Image url="@default-image_plate.jpg" />
+                           </image></ImageView>
                      </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
                   </AnchorPane>
                </children>
             </HBox>
-            <SplitPane dividerPositions="0.4843675982946471" prefWidth="846.0">
+            <SplitPane dividerPositions="0.49881516587677727" prefWidth="846.0">
               <items>
                   <AnchorPane prefHeight="144.0" prefWidth="398.0">
                      <children>

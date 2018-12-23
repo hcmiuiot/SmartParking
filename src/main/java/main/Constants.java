@@ -8,6 +8,7 @@ public class Constants {
 
     public final static String  LOGO_FILENAME = "hcmiulogo.png";
     public final static String  DEFAULT_IMG_DIR = "default-image.jpg";
+    public final static String  DEFAULT_IMG_PLATE_DIR = "default-image_plate.jpg";
 
     public final static int     MAX_CAMERA_NUMBER = 10;
 

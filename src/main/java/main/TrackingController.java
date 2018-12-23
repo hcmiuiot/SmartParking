@@ -32,13 +32,15 @@ public class TrackingController implements Initializable {
     @FXML
     private ImageView imgFont;
     @FXML
-    private ImageView imgBehind;
+    private ImageView imgBack;
     @FXML
     private ImageView imgPlate;
     @FXML
     private ImageView imgCamFont;
     @FXML
-    private ImageView imgCamBehind;
+    private ImageView imgCamBack;
+    @FXML
+    private ImageView imgCamPlate;
     @FXML
     private JFXTextField txtPlateNumber;
     @FXML
@@ -62,6 +64,7 @@ public class TrackingController implements Initializable {
     private JFXButton btn_cancel;
 
     private Image defaultImg = new Image("/" + Constants.DEFAULT_IMG_DIR);
+    private Image defaultImg_plate = new Image("/" + Constants.DEFAULT_IMG_PLATE_DIR);
     private Date timeIn;
     private Date timeOut;
     private Vehicle currentVehicle;
@@ -85,13 +88,11 @@ public class TrackingController implements Initializable {
         txtRFID.textProperty().addListener((observable, oldValue, newValue) -> {
             // Real purpose
             if (RFIDHandler.checkValidRFID(newValue.toUpperCase())) {
+                System.out.println("Valid RFID");
                 Platform.runLater(() -> {
-                    System.out.println("Valid RFID");
                     enterOutBtn.setDisable(false);
                     enterOutBtn.fire();
                 });
-                // NullPointerException...
-//                enterOutBtn.fire();
             } else {
                 Platform.runLater(() -> {
                     enterOutBtn.setDisable(true);
@@ -105,17 +106,22 @@ public class TrackingController implements Initializable {
     public void changeToWaitingMode() {
         state = 0;
         enterOutBtn_changeToYellow();
-        txtPlateNumber.setDisable(true);
-        txtRFID.setDisable(false);
-        btn_cancel.setDisable(true);
 
-        txtPlateNumber.setText("");
-        txtRFID.setText("");
+        resetImg();
+        currentVehicle = null;
+        Platform.runLater(() -> {
+            txtPlateNumber.setDisable(true);
+            txtRFID.setDisable(false);
+            btn_cancel.setDisable(true);
 
-        lbl_checkInTime.setText("-");
-        lbl_checkOutTime.setText("-");
-        lbl_parkingDuration.setText("-");
-        lbl_parkingFee.setText("- VND");
+            txtPlateNumber.setText("");
+            txtRFID.setText("");
+
+            lbl_checkInTime.setText("-");
+            lbl_checkOutTime.setText("-");
+            lbl_parkingDuration.setText("-");
+            lbl_parkingFee.setText("- VND");
+        });
     }
 
     public void changeToConfirm_EnterMode() {
@@ -125,38 +131,48 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        currentVehicle.setFrontImg(imgCamFont.getImage());
-        currentVehicle.setPlateImg(imgCamBehind.getImage());
-        currentVehicle.setTimeIn(new Date());
+        currentVehicle = new Vehicle(txtRFID.getText(), null, null, null, new Date());
 
-        imgFont.setImage(currentVehicle.getFrontImg());
-        imgBehind.setImage(currentVehicle.getPlateImg());
+        currentVehicle.setFrontImg(imgCamFont.getImage());
+        currentVehicle.setBackImg(imgCamBack.getImage());
+        currentVehicle.setPlateImg(imgCamPlate.getImage());
+
         timeIn = currentVehicle.getTimeIn();
 
-        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
-        lbl_parkingDuration.setText("0");
-        lbl_parkingFee.setText("0 VND");
+        Platform.runLater(() -> {
+            imgFont.setImage(currentVehicle.getFrontImg());
+            imgBack.setImage(currentVehicle.getBackImg());
+            imgPlate.setImage(currentVehicle.getPlateImg());
+
+            lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
+            lbl_parkingDuration.setText("0");
+            lbl_parkingFee.setText("0 VND");
+        });
     }
 
-    public void changeToConfirm_OutMode(Vehicle inputVehicle) {
+    public void changeToConfirm_OutMode() {
         state = 2;
         enterOutBtn_changeToRed();
         txtPlateNumber.setDisable(true);
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        imgFont.setImage(inputVehicle.getFrontImg());
-        imgBehind.setImage(inputVehicle.getPlateImg());
         timeIn = currentVehicle.getTimeIn();
         timeOut = new Date();
-        long duration = getDateDiff(inputVehicle.getTimeIn(), timeOut, TimeUnit.HOURS);
 
+        long duration = getDateDiff(currentVehicle.getTimeIn(), timeOut, TimeUnit.HOURS);
 
-        txtPlateNumber.setText(inputVehicle.getPlateNumber());
-        lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
-        lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
-        lbl_parkingDuration.setText(duration + " Hours");
-        lbl_parkingFee.setText(VehicleManage.getInstance().calculateParkingFee(duration) + " VND");
+        Platform.runLater(() -> {
+            imgFont.setImage(currentVehicle.getFrontImg());
+            imgBack.setImage(currentVehicle.getBackImg());
+            imgPlate.setImage(currentVehicle.getPlateImg());
+
+            txtPlateNumber.setText(currentVehicle.getPlateNumber());
+            lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
+            lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
+            lbl_parkingDuration.setText(duration + " Hours");
+            lbl_parkingFee.setText(VehicleManage.getInstance().calculateParkingFee(duration) + " VND");
+        });
     }
 
     @FXML
@@ -164,30 +180,24 @@ public class TrackingController implements Initializable {
         if (state == 0) {
             System.out.println(txtRFID.getText());
             enterOutBtn.setText("...");
-            currentVehicle = VehicleManage.getInstance().getXeByRfidFromParkingList(txtRFID.getText());
+            currentVehicle = VehicleManage.getInstance().getVehicleByRfidFromParkingList(txtRFID.getText());
             if (currentVehicle != null) {
-                Platform.runLater(() -> {
-                    changeToConfirm_OutMode(currentVehicle);
-                });
+                changeToConfirm_OutMode();
             } else {
-                Platform.runLater(() -> {
-                    changeToConfirm_EnterMode();
-                });
+                changeToConfirm_EnterMode();
             }
         } else if (state == 1) {
-//            currentVehicle = new Vehicle(txtRFID.getText(), null, null, txtPlateNumber.getText(), new Date());
-            VehicleManage.addXe(currentVehicle);
+            currentVehicle.setPlateNumber(txtPlateNumber.getText());
+            VehicleManage.addVehicle(currentVehicle);
             System.out.println(currentVehicle + " IN");
-            currentVehicle = null;
+            enterOutBtn.setText("...");
             changeToWaitingMode();
-            resetImg();
         } else if (state == 2) {
-            currentVehicle.changeStutusToLeft();
-            VehicleManage.getInstance().moveXeToOtherList(currentVehicle);
+            currentVehicle.changeStatusToLeft();
+            VehicleManage.getInstance().moveVehicleToOtherList(currentVehicle);
             System.out.println(currentVehicle + " OUT");
-            currentVehicle = null;
+            enterOutBtn.setText("...");
             changeToWaitingMode();
-            resetImg();
         }
     }
 
@@ -201,7 +211,7 @@ public class TrackingController implements Initializable {
         if (img != null) {
             DataPacket packet = new DataPacket(img);
             ImageProcessing.setImage(imgFont, packet.getOriginMat());
-            ImageProcessing.setImage(imgBehind, packet.getOriginMat());
+            ImageProcessing.setImage(imgBack, packet.getOriginMat());
             ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
             txtPlateNumber.setText(packet.getLicenseNumber());
         }
@@ -223,7 +233,7 @@ public class TrackingController implements Initializable {
 
 //		Platform.runLater(() -> {
         cameraStreamer = new CameraStreamer(0, imgCamFont);
-        cameraStreamer2 = new CameraStreamer(0, imgCamBehind);
+        cameraStreamer2 = new CameraStreamer(0, imgCamBack);
 //
 //            cameraStreamer.setFps(50);
 //            cameraStreamer2.setFps(50);
@@ -323,8 +333,11 @@ public class TrackingController implements Initializable {
     }
 
     private void resetImg() {
-        imgBehind.setImage(defaultImg);
-        imgFont.setImage(defaultImg);
+        Platform.runLater(() -> {
+            imgBack.setImage(defaultImg);
+            imgFont.setImage(defaultImg);
+            imgPlate.setImage(defaultImg_plate);
+        });
     }
 
     public byte getState() {
