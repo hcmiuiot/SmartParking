@@ -63,11 +63,18 @@ public class TrackingController implements Initializable {
     @FXML
     private JFXButton btn_cancel;
 
+    private String name;
     private Image defaultImg = new Image("/" + Constants.DEFAULT_IMG_DIR);
     private Image defaultImg_plate = new Image("/" + Constants.DEFAULT_IMG_PLATE_DIR);
     private Date timeIn;
     private Date timeOut;
     private Vehicle currentVehicle;
+    /**
+     * 0 - Both Enter and Out lane (Default)
+     * 1 - Only Enter lane
+     * 2 - Only Out lane
+     */
+    private byte role = 0;
     /**
      * 0 - Waiting
      * 1 - Entering
@@ -88,7 +95,6 @@ public class TrackingController implements Initializable {
         txtRFID.textProperty().addListener((observable, oldValue, newValue) -> {
             // Real purpose
             if (RFIDHandler.checkValidRFID(newValue.toUpperCase())) {
-                System.out.println("Valid RFID");
                 Platform.runLater(() -> {
                     enterOutBtn.setDisable(false);
                     enterOutBtn.fire();
@@ -182,9 +188,17 @@ public class TrackingController implements Initializable {
             enterOutBtn.setText("...");
             currentVehicle = VehicleManage.getInstance().getVehicleByRfidFromParkingList(txtRFID.getText());
             if (currentVehicle != null) {
-                changeToConfirm_OutMode();
+                if (role == 0 || role == 2){
+                    changeToConfirm_OutMode();
+                } else {
+                    changeToWaitingMode();
+                }
             } else {
-                changeToConfirm_EnterMode();
+                if (role == 0 || role == 1){
+                    changeToConfirm_EnterMode();
+                } else {
+                    changeToWaitingMode();
+                }
             }
         } else if (state == 1) {
             currentVehicle.setPlateNumber(txtPlateNumber.getText());
@@ -279,8 +293,9 @@ public class TrackingController implements Initializable {
             stage.setScene(new Scene(configDialog));
             TrackingConfigController configController = configLoader.getController();
             configController.setTrackingController(this);
-//			stage.show();
-            stage.showAndWait();
+            stage.setTitle(this.name + " configurate");
+            stage.show();
+//            stage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -288,6 +303,21 @@ public class TrackingController implements Initializable {
     }
 
     private int focusWidth, focusHeight, focusX, focusY;
+
+    public void setRole(byte newRole) {
+        this.role = newRole;
+        switch (role) {
+            case 0:
+                System.out.println(this.name + " Change to both enter and out lane");
+                break;
+            case 1:
+                System.out.println(this.name + " Change to only enter lane");
+                break;
+            case 2:
+                System.out.println(this.name + " Change to only out lane");
+                break;
+        }
+    }
 
     public void setFocusConfig(int width, int height, int x, int y) {
         focusWidth = width;
@@ -342,6 +372,14 @@ public class TrackingController implements Initializable {
 
     public byte getState() {
         return state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     //	@Override

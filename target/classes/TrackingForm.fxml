@@ -61,7 +61,7 @@
                   </AnchorPane>
                </children>
             </HBox>
-            <SplitPane dividerPositions="0.49881516587677727" prefWidth="846.0">
+            <SplitPane dividerPositions="0.4774881516587678" prefWidth="846.0">
               <items>
                   <AnchorPane prefHeight="144.0" prefWidth="398.0">
                      <children>
@@ -108,7 +108,7 @@
                      </children></AnchorPane>
                   <VBox minWidth="390.0" prefHeight="153.0" prefWidth="530.0">
                      <children>
-                        <AnchorPane prefHeight="118.0" prefWidth="450.0">
+                        <AnchorPane prefHeight="118.0" prefWidth="434.0">
                            <children>
                               <Label layoutX="9.0" prefHeight="26.0" prefWidth="114.0" text="Plate number" textFill="#303f9f" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="30.0">
                                  <font>

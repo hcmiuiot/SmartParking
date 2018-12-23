@@ -71,6 +71,9 @@ public class MainController implements Initializable {
         splitPane.getItems().add(trackingForm1);
         splitPane.getItems().add(trackingForm2);
 
+        trackingController1.setName("Left Tracking");
+        trackingController2.setName("Right Tracking");
+
         //RFIDHandler
         this.refreshPortList();
     }
