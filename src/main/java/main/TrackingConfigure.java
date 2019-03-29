@@ -42,7 +42,7 @@ public class TrackingConfigure {
 //            JsonReader reader = new JsonReader(new FileReader(configFileName));
 //            TrackingConfigure loadedConfig = gson.fromJson(reader, getClass());
 
-            TrackingConfigure loadedConfig = new JsonFileUtils<TrackingConfigure>(TrackingConfigure.class).load(configFileName);
+            TrackingConfigure loadedConfig = new JsonFileUtils<>(TrackingConfigure.class).load(configFileName);
 
             this.fontCamId = loadedConfig.fontCamId;
             this.behindCamId = loadedConfig.behindCamId;

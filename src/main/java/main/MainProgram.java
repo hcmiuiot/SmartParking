@@ -17,29 +17,35 @@ import java.util.Date;
 
 public class MainProgram extends Application {
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		System.err.println("Error msg");
-		primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
-		FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
-		Parent mainform = loader.load();
-		Scene mainScence = new Scene(mainform);
-		primaryStage.setScene(mainScence);
-		primaryStage.setMaximized(true);
-		primaryStage.setTitle(Constants.APPLICATION_TITLE);
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-		Database.getInstance(); //Connect 2 DB
-		primaryStage.setOnCloseRequest(event -> {
-			System.out.println("Reach main here");
-			Platform.exit();
-			System.exit(0);
-		});
-		primaryStage.show();
-	}
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        System.err.println("Error msg");
+        primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
+        FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
+        Parent mainform = loader.load();
+        Scene mainScence = new Scene(mainform);
+        primaryStage.setScene(mainScence);
+        primaryStage.setMaximized(true);
+        primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
-	
+//		Database.getInstance(); //Connect 2 DB
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("Reach main here");
+            Platform.exit();
+            System.exit(0);
+        });
+        primaryStage.show();
+    }
+
+    public static SimpleDateFormat getSimpleDateFormat() {
+        return sdf;
+    }
+
+
 }

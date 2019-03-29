@@ -5,7 +5,9 @@ import com.jfoenix.controls.JFXSlider;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.awt.*;
 import java.net.URL;
@@ -31,7 +33,9 @@ public class TrackingConfigController implements Initializable {
 
     @FXML
     private JFXSlider focusY;
-	
+	@FXML
+	private JFXComboBox laneRole_combobox;
+
 	public void setTrackingController(TrackingController trackingController) {
 		this.trackingController = trackingController;
 	}
@@ -43,8 +47,16 @@ public class TrackingConfigController implements Initializable {
 
     @FXML
     void onOkay(ActionEvent event) {
-    	
-    }
+		if (laneRole_combobox.getValue().toString().equals("Enter and Out")){
+			trackingController.setRole((byte) 0);
+		} else if (laneRole_combobox.getValue().toString().equals("Only Enter")){
+			trackingController.setRole((byte) 1);
+		} else if (laneRole_combobox.getValue().toString().equals("Only Out")){
+			trackingController.setRole((byte) 2);
+		}
+		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
+		stage.close();
+	}
     
     @FXML
     void onChangeFocusConfigs(MouseEvent event) {
@@ -62,6 +74,11 @@ public class TrackingConfigController implements Initializable {
 		}
 //		comboFontCamera.getSelectionModel().select(0);
 //		comboBehindCamera.getSelectionModel().select(0);
+		laneRole_combobox.getItems().add("Enter and Out");
+		laneRole_combobox.getItems().add("Only Enter");
+		laneRole_combobox.getItems().add("Only Out");
+		laneRole_combobox.getSelectionModel().selectFirst();
+
 	}
 	
 }
