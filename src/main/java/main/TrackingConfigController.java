@@ -42,7 +42,8 @@ public class TrackingConfigController implements Initializable {
 	
 	@FXML
     void onCancel(ActionEvent event) {
-
+		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
+		stage.close();
     }
 
     @FXML

@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="924.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="924.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.TrackingController">
    <children>
       <VBox prefHeight="924.0" prefWidth="846.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -65,39 +65,49 @@
               <items>
                   <AnchorPane prefHeight="144.0" prefWidth="398.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Check-in time:" textFill="#212121" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                        <Label layoutX="14.0" layoutY="1.0" text="Check-in time:" textFill="#212121" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="1.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font></Label>
-                        <Label layoutX="14.0" layoutY="46.0" text="Check-out time:" textFill="#212121">
+                        <Label fx:id="lbl_checkInTime" alignment="CENTER" layoutX="165.0" layoutY="4.0" prefHeight="17.0" prefWidth="203.0" text="dd-MM-yyyy - hh:mm:ss" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="25.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="28.0" text="Check-out time:" textFill="#212121">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="78.0" text="Parking duration:" textFill="#212121">
+                        <Label fx:id="lbl_checkOutTime" alignment="CENTER" layoutX="165.0" layoutY="31.0" prefHeight="17.0" prefWidth="203.0" text="dd-MM-yyyy - hh:mm:ss" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="25.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="55.0" text="Parking duration:" textFill="#212121">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="135.0" text="Parking fee:" textFill="#303f9f">
+                        <Label fx:id="lbl_parkingDuration" alignment="CENTER" layoutX="170.0" layoutY="58.0" prefHeight="17.0" prefWidth="203.0" text="hh:mm" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="30.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="82.0" text="Emotion" textFill="#212121">
                            <font>
                               <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_emotionVal" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="85.0" prefHeight="17.0" prefWidth="203.0" text="Unknown" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="30.0">
+                           <font>
+                              <Font size="15.0" />
                            </font>
                         </Label>
                         <Line endX="20.0" fill="BLACK" layoutX="326.0" layoutY="117.0" startX="-355.0" AnchorPane.bottomAnchor="52.7072212100029" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="116.2927787899971" />
-                        <Label fx:id="lbl_checkInTime" alignment="CENTER" layoutX="170.0" layoutY="17.0" prefHeight="17.0" prefWidth="203.0" text="dd-MM-yyyy - hh:mm:ss" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="25.0">
+                        <Label layoutX="14.0" layoutY="135.0" text="Parking fee:" textFill="#303f9f">
                            <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_checkOutTime" alignment="CENTER" layoutX="170.0" layoutY="49.0" prefHeight="17.0" prefWidth="203.0" text="dd-MM-yyyy - hh:mm:ss" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="25.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lbl_parkingDuration" alignment="CENTER" layoutX="170.0" layoutY="81.0" prefHeight="17.0" prefWidth="203.0" text="hh:mm" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="30.0">
-                           <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label fx:id="lbl_parkingFee" alignment="CENTER" layoutX="136.0" layoutY="127.0" prefHeight="21.0" prefWidth="261.0" text="0 VND" textAlignment="CENTER" textFill="#ff5252" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="20.0">

@@ -58,6 +58,9 @@ public class TrackingController implements Initializable {
     private Label lbl_parkingDuration;
 
     @FXML
+    private Label lbl_emotionVal;
+
+    @FXML
     private Label lbl_parkingFee;
 
     @FXML
