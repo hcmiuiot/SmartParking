@@ -12,6 +12,8 @@ import javafx.stage.WindowEvent;
 import sun.applet.Main;
 
 import javax.crypto.Cipher;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,7 +36,14 @@ public class MainProgram extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
-//		Database.getInstance(); //Connect 2 DB
+        // Init the EmotionDetector singleton
+        try {
+            EmotionDetector.getInstance();
+        } catch (Exception e){
+            System.err.println("Error in EmotionDetector, please check credential or the internet connection! Please note that there is no Bug :( - XT");
+        }
+
+        //		Database.getInstance(); //Connect 2 DB
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("Reach main here");
             Platform.exit();
