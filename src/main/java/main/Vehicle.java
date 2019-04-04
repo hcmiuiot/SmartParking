@@ -13,6 +13,8 @@ public class Vehicle {
     private Boolean status; // 1 - parking ; 0 - left
     private Date timeIn;
     private Date timeOut;
+    private EnumEmotion emotionIn = EnumEmotion.UNKNOWN;
+    private EnumEmotion emotionOut = EnumEmotion.UNKNOWN;
 
     public Vehicle(String rfidNumber, Image frontImg, Image backImg, String plateNumber, Date timeIn) {
         this.rfidNumber = rfidNumber;
@@ -94,4 +96,12 @@ public class Vehicle {
     public void setBackImg(Image backImg) {
         this.backImg = backImg;
     }
+
+    public EnumEmotion getEmotionIn() { return emotionIn; }
+
+    public void setEmotionIn(EnumEmotion emotionIn) { this.emotionIn = emotionIn; }
+
+    public EnumEmotion getEmotionOut() { return emotionOut; }
+
+    public void setEmotionOut(EnumEmotion emotionOut) { this.emotionOut = emotionOut; }
 }

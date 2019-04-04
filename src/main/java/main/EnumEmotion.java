@@ -1,7 +1,7 @@
 package main;
 
 public enum EnumEmotion {
-    JOY, SORROW, ANGER, UNKNOWN;
+    JOY, SORROW, ANGER, NEURAL,UNKNOWN, ERROR;
 
     public String getColorRelate(){
         switch (this){
@@ -11,9 +11,10 @@ public enum EnumEmotion {
                 return "#b71c1c"; //Red
             case SORROW:
                 return "#304ffe"; //Blue
+            case NEURAL:
             case UNKNOWN:
             default:
-                return "#212121"; //Black
+                return "#212121";
         }
     }
 
@@ -27,8 +28,12 @@ public enum EnumEmotion {
             case SORROW:
                 return "SORROW";
             case UNKNOWN:
-            default:
                 return "UNKNOWN";
+            case NEURAL:
+                return "NEURAL";
+            case ERROR:
+            default:
+                return "ERROR";
         }
     }
 }

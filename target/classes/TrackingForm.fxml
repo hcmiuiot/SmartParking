@@ -99,9 +99,9 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lbl_emotionVal" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="85.0" prefHeight="17.0" prefWidth="203.0" text="Unknown" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="30.0">
+                        <Label fx:id="lbl_emotionVal" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="85.0" prefHeight="17.0" prefWidth="203.0" text="-" textAlignment="CENTER" textFill="#212121" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="30.0">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
                         <Line endX="20.0" fill="BLACK" layoutX="326.0" layoutY="117.0" startX="-355.0" AnchorPane.bottomAnchor="52.7072212100029" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="116.2927787899971" />

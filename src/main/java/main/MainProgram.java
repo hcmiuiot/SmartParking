@@ -27,7 +27,7 @@ public class MainProgram extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.err.println("Error msg");
+        System.out.println("-------INITIALIZATION-------");
         primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
         FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
         Parent mainform = loader.load();
@@ -39,6 +39,7 @@ public class MainProgram extends Application {
         // Init the EmotionDetector singleton
         try {
             EmotionDetector.getInstance();
+            System.out.println("Emotional initialized!");
         } catch (Exception e){
             System.err.println("Error in EmotionDetector, please check credential or the internet connection! Please note that there is no Bug :( - XT");
         }
@@ -49,6 +50,7 @@ public class MainProgram extends Application {
             Platform.exit();
             System.exit(0);
         });
+        System.out.println("-------END_OF_INIT-------");
         primaryStage.show();
     }
 

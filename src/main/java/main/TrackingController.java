@@ -4,6 +4,8 @@ import Camera.CameraStreamer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,6 +74,7 @@ public class TrackingController implements Initializable {
     private Date timeIn;
     private Date timeOut;
     private Vehicle currentVehicle;
+    private EnumEmotion detecedEmotion = EnumEmotion.UNKNOWN;
     /**
      * 0 - Both Enter and Out lane (Default)
      * 1 - Only Enter lane
@@ -90,6 +93,31 @@ public class TrackingController implements Initializable {
     private VideoCapture capture;
     private Mat frame;
     private Mat m1;
+
+    private Service<Void> emotionDetectService = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    System.out.println("-------FACE_INFORMATION-------");
+                    Platform.runLater(() -> lbl_emotionVal.setText("Processing..."));
+                    if (imgFont.getImage() != null) {
+                        detecedEmotion = EmotionDetector.getInstance().getEmotion(imgFont.getImage());
+                    } else {
+                        System.err.println("EmoDectectTask: null front img");
+                        detecedEmotion = EnumEmotion.ERROR;
+                    }
+                    Platform.runLater(() -> {
+                        lbl_emotionVal.setText(detecedEmotion.toString());
+                        lbl_emotionVal.setStyle("-fx-text-fill: " + detecedEmotion.getColorRelate());
+                    });
+                    System.out.println("--------END_INFORMATION-------");
+                    return null;
+                }
+            };
+        }
+    };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +157,11 @@ public class TrackingController implements Initializable {
             lbl_checkInTime.setText("-");
             lbl_checkOutTime.setText("-");
             lbl_parkingDuration.setText("-");
+            lbl_emotionVal.setText("-");
             lbl_parkingFee.setText("- VND");
+
+            lbl_emotionVal.setStyle("-fx-text-fill: #212121");
+            emotionDetectService.reset();
         });
     }
 
@@ -142,20 +174,17 @@ public class TrackingController implements Initializable {
 
         currentVehicle = new Vehicle(txtRFID.getText(), null, null, null, new Date());
 
-        currentVehicle.setFrontImg(imgCamFont.getImage());
-        currentVehicle.setBackImg(imgCamBack.getImage());
-        currentVehicle.setPlateImg(imgCamPlate.getImage());
-
         timeIn = currentVehicle.getTimeIn();
-
         Platform.runLater(() -> {
-            imgFont.setImage(currentVehicle.getFrontImg());
-            imgBack.setImage(currentVehicle.getBackImg());
-            imgPlate.setImage(currentVehicle.getPlateImg());
+//            imgFont.setImage(imgCamFont.getImage());
+//            imgBack.setImage(imgCamBack.getImage());
+//            imgPlate.setImage(imgCamPlate.getImage());
 
             lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
             lbl_parkingDuration.setText("0");
             lbl_parkingFee.setText("0 VND");
+
+            emotionDetectService.start();
         });
     }
 
@@ -181,23 +210,25 @@ public class TrackingController implements Initializable {
             lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
             lbl_parkingDuration.setText(duration + " Hours");
             lbl_parkingFee.setText(VehicleManage.getInstance().calculateParkingFee(duration) + " VND");
+
+            emotionDetectService.start();
         });
     }
 
     @FXML
     void enterOutBtn_onAction(ActionEvent event) {
         if (state == 0) {
-            System.out.println(txtRFID.getText());
+            System.out.println(this.name + " input RFID: " + txtRFID.getText());
             enterOutBtn.setText("...");
             currentVehicle = VehicleManage.getInstance().getVehicleByRfidFromParkingList(txtRFID.getText());
             if (currentVehicle != null) {
-                if (role == 0 || role == 2){
+                if (role == 0 || role == 2) {
                     changeToConfirm_OutMode();
                 } else {
                     changeToWaitingMode();
                 }
             } else {
-                if (role == 0 || role == 1){
+                if (role == 0 || role == 1) {
                     changeToConfirm_EnterMode();
                 } else {
                     changeToWaitingMode();
@@ -205,12 +236,17 @@ public class TrackingController implements Initializable {
             }
         } else if (state == 1) {
             currentVehicle.setPlateNumber(txtPlateNumber.getText());
+            currentVehicle.setFrontImg(imgFont.getImage());
+            currentVehicle.setBackImg(imgBack.getImage());
+            currentVehicle.setPlateImg(imgPlate.getImage());
+            currentVehicle.setEmotionIn(detecedEmotion);
             VehicleManage.addVehicle(currentVehicle);
             System.out.println(currentVehicle + " IN");
             enterOutBtn.setText("...");
             changeToWaitingMode();
         } else if (state == 2) {
             currentVehicle.changeStatusToLeft();
+            currentVehicle.setEmotionOut(detecedEmotion);
             VehicleManage.getInstance().moveVehicleToOtherList(currentVehicle);
             System.out.println(currentVehicle + " OUT");
             enterOutBtn.setText("...");
@@ -363,6 +399,11 @@ public class TrackingController implements Initializable {
     private void enterOutBtn_changeToYellow() {
         this.enterOutBtn.setText("Check");
         this.enterOutBtn.setStyle("-fx-background-color:  #F57C00;");
+    }
+
+    private void emotionLbl_changeState(EnumEmotion enumEmo) {
+        lbl_emotionVal.setText(enumEmo.toString());
+        lbl_emotionVal.setStyle("-fx-text-fill: " + enumEmo.getColorRelate() + ";");
     }
 
     private void resetImg() {
