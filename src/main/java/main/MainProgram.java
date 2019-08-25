@@ -2,18 +2,14 @@ package main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import sun.applet.Main;
+import main.ImageProcessor.EmotionalProcessing.EmotionDetector;
 
-import javax.crypto.Cipher;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainProgram extends Application {
 
@@ -25,7 +21,8 @@ public class MainProgram extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.err.println("Error msg");
+        System.out.println("-------INITIALIZATION-------");
+
         primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
         FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
         Parent mainform = loader.load();
@@ -34,12 +31,21 @@ public class MainProgram extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setTitle(Constants.APPLICATION_TITLE);
 
-//		Database.getInstance(); //Connect 2 DB
+        // Init the EmotionDetector singleton
+        try {
+            EmotionDetector.getInstance();
+            System.out.println("Emotional initialized!");
+        } catch (Exception e){
+            System.err.println("Error in EmotionDetector, please check credential or the internet connection! Please note that there is no Bug :( - XT");
+        }
+
+        //		Database.getInstance(); //Connect 2 DB
         primaryStage.setOnCloseRequest(event -> {
-            System.out.println("Reach main here");
+            System.out.println("PROGRAM EXITING");
             Platform.exit();
             System.exit(0);
         });
+        System.out.println("-------END_OF_INIT-------");
         primaryStage.show();
     }
 

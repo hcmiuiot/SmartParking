@@ -1,5 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run" type="Application" factoryName="Application">
+    <envs>
+      <env name="GOOGLE_CLOUD_PROJECT" value="helloworld-206516" />
+      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="$PROJECT_DIR$\helloWorld-190317224726.json" />
+    </envs>
     <option name="MAIN_CLASS_NAME" value="main.MainProgram" />
     <module name="SmartParking" />
     <method v="2">
