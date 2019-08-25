@@ -75,6 +75,7 @@ public class TrackingController implements Initializable {
     private JFXButton btn_cancel;
     //endregion
 
+    //region Application State
     private Image defaultImg = new Image("/" + Constants.DEFAULT_IMG_DIR);
     private Image defaultImg_plate = new Image("/" + Constants.DEFAULT_IMG_PLATE_DIR);
 
@@ -97,6 +98,34 @@ public class TrackingController implements Initializable {
      * 2 - Outing
      */
     private byte state = 0;
+    //endregion
+
+    //region Emotional Services
+    private Service<Void> emotionDetectService = new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    System.out.println("-------FACE_INFORMATION-------");
+                    Platform.runLater(() -> lbl_emotionVal.setText("Processing..."));
+                    if (imgFont.getImage() != null) {
+                        detecedEmotion = EmotionDetector.getInstance().getEmotion(imgFont.getImage());
+                    } else {
+                        System.err.println("EmoDectectTask: null front img");
+                        detecedEmotion = EnumEmotion.ERROR;
+                    }
+                    Platform.runLater(() -> {
+                        lbl_emotionVal.setText(detecedEmotion.toString());
+                        lbl_emotionVal.setStyle("-fx-text-fill: " + detecedEmotion.getColorRelate());
+                    });
+                    System.out.println("--------END_INFORMATION-------");
+                    return null;
+                }
+            };
+        }
+    };
+    //endregion
 
     //region Image Processing
     private ScheduledExecutorService timer;
@@ -135,34 +164,6 @@ public class TrackingController implements Initializable {
         });
     }
     //endregion
-
-    //region Emotional Services
-    private Service<Void> emotionDetectService = new Service<Void>() {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    System.out.println("-------FACE_INFORMATION-------");
-                    Platform.runLater(() -> lbl_emotionVal.setText("Processing..."));
-                    if (imgFont.getImage() != null) {
-                        detecedEmotion = EmotionDetector.getInstance().getEmotion(imgFont.getImage());
-                    } else {
-                        System.err.println("EmoDectectTask: null front img");
-                        detecedEmotion = EnumEmotion.ERROR;
-                    }
-                    Platform.runLater(() -> {
-                        lbl_emotionVal.setText(detecedEmotion.toString());
-                        lbl_emotionVal.setStyle("-fx-text-fill: " + detecedEmotion.getColorRelate());
-                    });
-                    System.out.println("--------END_INFORMATION-------");
-                    return null;
-                }
-            };
-        }
-    };
-    //endregion
-
 
     //region Gui Helper
     private void enterOutBtn_changeToGreen() {
@@ -222,7 +223,12 @@ public class TrackingController implements Initializable {
             lbl_parkingFee.setText("- VND");
 
             lbl_emotionVal.setStyle("-fx-text-fill: #212121");
-            emotionDetectService.reset();
+
+            try {
+                emotionDetectService.reset();
+            } catch (IllegalStateException e) {
+                System.out.println("ERROR Emotion");
+            }
         });
     }
 
@@ -277,7 +283,6 @@ public class TrackingController implements Initializable {
     }
 
 
-
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
         long diffInMillies = date2.getTime() - date1.getTime();
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
@@ -311,7 +316,7 @@ public class TrackingController implements Initializable {
             currentParkingSession.setBackImg(imgBack.getImage());
             currentParkingSession.setPlateImg(imgPlate.getImage());
             currentParkingSession.setEmotionIn(detecedEmotion);
-            SessionParkingServices.addParkingSession(currentParkingSession);
+            SessionParkingServices.getInstance().addParkingSession(currentParkingSession);
             System.out.println(currentParkingSession + " IN");
             enterOutBtn.setText("...");
             changeToWaitingMode();
@@ -369,7 +374,6 @@ public class TrackingController implements Initializable {
     }
 
 
-
     @FXML
     private void onConfig(ActionEvent event) {
 //		cameraStreamer.stopStream();
@@ -423,10 +427,6 @@ public class TrackingController implements Initializable {
     }
 
 
-
-
-
-
     //region Getter - Setter
     public void setRole(byte newRole) {
         this.role = newRole;
@@ -442,6 +442,7 @@ public class TrackingController implements Initializable {
                 break;
         }
     }
+
     public byte getState() {
         return state;
     }

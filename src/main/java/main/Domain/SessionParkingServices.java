@@ -24,7 +24,7 @@ public class SessionParkingServices {
         return instance;
     }
 
-    public static Boolean checkExistRfidFromParkingList(String RFIDNumber) {
+    public Boolean checkExistRfidFromParkingList(String RFIDNumber) {
         for (int i = listOfParkingParkingSession.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that ParkingSession is parking
             if (listOfParkingParkingSession.get(i).getRfidNumber().toUpperCase().equals(RFIDNumber.toUpperCase()) && listOfParkingParkingSession.get(i).getStatus() == true)
@@ -33,7 +33,7 @@ public class SessionParkingServices {
         return false;
     }
 
-    public static ParkingSession getParkingSessionByRfidFromParkingList(String RFIDNumber) {
+    public ParkingSession getParkingSessionByRfidFromParkingList(String RFIDNumber) {
         for (int i = listOfParkingParkingSession.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that ParkingSession is parking
             if (listOfParkingParkingSession.get(i).getRfidNumber().toUpperCase().equals(RFIDNumber.toUpperCase()) && listOfParkingParkingSession.get(i).getStatus() == true)
@@ -42,7 +42,7 @@ public class SessionParkingServices {
         return null;
     }
 
-    public static long calculateParkingFee(Long duration) {
+    public long calculateParkingFee(Long duration) {
         return duration * Constants.FEE_PER_HOUR;
     }
 
@@ -57,7 +57,7 @@ public class SessionParkingServices {
         }
     }
 
-    public static void addParkingSession(ParkingSession newParkingSession) {
+    public void addParkingSession(ParkingSession newParkingSession) {
         listOfParkingParkingSession.add(newParkingSession);
     }
 

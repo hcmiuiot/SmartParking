@@ -41,7 +41,7 @@ public class MainProgram extends Application {
 
         //		Database.getInstance(); //Connect 2 DB
         primaryStage.setOnCloseRequest(event -> {
-            System.out.println("Reach main here");
+            System.out.println("PROGRAM EXITING");
             Platform.exit();
             System.exit(0);
         });
