@@ -28,7 +28,7 @@ public class ImageProcessing {
 	private static ImageProcessing instance;
 
 	private ImageProcessing() {
-		System.load("E:\\GITHUB\\SmartParking\\lib\\x64\\opencv_java343.dll");
+		System.load("D:\\IT\\IdeaProjects\\SmartParking\\lib\\x64\\opencv_java343.dll");
 //		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 	public static ImageProcessing getInstance() {

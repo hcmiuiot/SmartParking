@@ -44,13 +44,13 @@ public class TrackingController implements Initializable {
 
     //region JavaFX
     @FXML
-    private ImageView imgFont;
+    private ImageView imgFront;
     @FXML
     private ImageView imgBack;
     @FXML
     private ImageView imgPlate;
     @FXML
-    private ImageView imgCamFont;
+    private ImageView imgCamFront;
     @FXML
     private ImageView imgCamBack;
     @FXML
@@ -81,7 +81,7 @@ public class TrackingController implements Initializable {
 
     private Date timeIn;
     private Date timeOut;
-    private EnumEmotion detecedEmotion = EnumEmotion.UNKNOWN;
+    private EnumEmotion detectedEmotion = EnumEmotion.UNKNOWN;
 
     private ParkingSession currentParkingSession;
 
@@ -109,15 +109,15 @@ public class TrackingController implements Initializable {
                 protected Void call() throws Exception {
                     System.out.println("-------FACE_INFORMATION-------");
                     Platform.runLater(() -> lbl_emotionVal.setText("Processing..."));
-                    if (imgFont.getImage() != null) {
-                        detecedEmotion = EmotionDetector.getInstance().getEmotion(imgFont.getImage());
+                    if (imgFront.getImage() != null) {
+                        detectedEmotion = EmotionDetector.getInstance().getEmotion(imgFront.getImage());
                     } else {
                         System.err.println("EmoDectectTask: null front img");
-                        detecedEmotion = EnumEmotion.ERROR;
+                        detectedEmotion = EnumEmotion.ERROR;
                     }
                     Platform.runLater(() -> {
-                        lbl_emotionVal.setText(detecedEmotion.toString());
-                        lbl_emotionVal.setStyle("-fx-text-fill: " + detecedEmotion.getColorRelate());
+                        lbl_emotionVal.setText(detectedEmotion.toString());
+                        lbl_emotionVal.setStyle("-fx-text-fill: " + detectedEmotion.getColorRelate());
                     });
                     System.out.println("--------END_INFORMATION-------");
                     return null;
@@ -130,9 +130,9 @@ public class TrackingController implements Initializable {
     //region Image Processing
     private ScheduledExecutorService timer;
     private int deviceIndex = 0;
-    private VideoCapture capture;
-    private Mat frame;
-    private Mat m1;
+//    private VideoCapture capture;
+//    private Mat frame;
+//    private Mat m1;
     private int focusWidth, focusHeight, focusX, focusY;
 
 
@@ -193,7 +193,7 @@ public class TrackingController implements Initializable {
     private void resetImg() {
         Platform.runLater(() -> {
             imgBack.setImage(defaultImg);
-            imgFont.setImage(defaultImg);
+            imgFront.setImage(defaultImg);
             imgPlate.setImage(defaultImg_plate);
         });
     }
@@ -243,7 +243,7 @@ public class TrackingController implements Initializable {
 
         timeIn = currentParkingSession.getTimeIn();
         Platform.runLater(() -> {
-//            imgFont.setImage(imgCamFont.getImage());
+//            imgFront.setImage(imgCamFront.getImage());
 //            imgBack.setImage(imgCamBack.getImage());
 //            imgPlate.setImage(imgCamPlate.getImage());
 
@@ -268,7 +268,7 @@ public class TrackingController implements Initializable {
         long duration = getDateDiff(currentParkingSession.getTimeIn(), timeOut, TimeUnit.HOURS);
 
         Platform.runLater(() -> {
-            imgFont.setImage(currentParkingSession.getFrontImg());
+            imgFront.setImage(currentParkingSession.getFrontImg());
             imgBack.setImage(currentParkingSession.getBackImg());
             imgPlate.setImage(currentParkingSession.getPlateImg());
 
@@ -312,17 +312,17 @@ public class TrackingController implements Initializable {
             }
         } else if (state == 1) {
             currentParkingSession.setPlateNumber(txtPlateNumber.getText());
-            currentParkingSession.setFrontImg(imgFont.getImage());
+            currentParkingSession.setFrontImg(imgFront.getImage());
             currentParkingSession.setBackImg(imgBack.getImage());
             currentParkingSession.setPlateImg(imgPlate.getImage());
-            currentParkingSession.setEmotionIn(detecedEmotion);
+            currentParkingSession.setEmotionIn(detectedEmotion);
             SessionParkingServices.getInstance().addParkingSession(currentParkingSession);
             System.out.println(currentParkingSession + " IN");
             enterOutBtn.setText("...");
             changeToWaitingMode();
         } else if (state == 2) {
             currentParkingSession.changeStatusToLeft();
-            currentParkingSession.setEmotionOut(detecedEmotion);
+            currentParkingSession.setEmotionOut(detectedEmotion);
             SessionParkingServices.getInstance().moveParkingSessionToReservedList(currentParkingSession);
             System.out.println(currentParkingSession + " OUT");
             enterOutBtn.setText("...");
@@ -339,7 +339,7 @@ public class TrackingController implements Initializable {
         File img = chooser.showOpenDialog(null);
         if (img != null) {
             DataPacket packet = new DataPacket(img);
-            ImageProcessing.setImage(imgFont, packet.getOriginMat());
+            ImageProcessing.setImage(imgFront, packet.getOriginMat());
             ImageProcessing.setImage(imgBack, packet.getOriginMat());
             ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
             txtPlateNumber.setText(packet.getLicenseNumber());
@@ -359,7 +359,7 @@ public class TrackingController implements Initializable {
 //		ImageProcessing.train();
 
 //		Platform.runLater(() -> {
-        cameraStreamer = new CameraStreamer(0, imgCamFont);
+        cameraStreamer = new CameraStreamer(0, imgCamFront);
         cameraStreamer2 = new CameraStreamer(0, imgCamBack);
 //
 //            cameraStreamer.setFps(50);
@@ -369,7 +369,7 @@ public class TrackingController implements Initializable {
         cameraStreamer2.startStream();
 //		});
 
-        //Thread thread = new Thread(new CameraStreamer(0, imgCamFont));
+        //Thread thread = new Thread(new CameraStreamer(0, imgCamFront));
 //		streamVideo();
     }
 
@@ -386,7 +386,7 @@ public class TrackingController implements Initializable {
             stage.setScene(new Scene(configDialog));
             TrackingConfigController configController = configLoader.getController();
             configController.setTrackingController(this);
-            stage.setTitle(this.name + " configurate");
+            stage.setTitle(this.name + " config");
             stage.show();
 //            stage.showAndWait();
 

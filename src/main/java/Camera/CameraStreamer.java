@@ -53,7 +53,7 @@ public class CameraStreamer extends AsyncTask {
 
     @Override
     public void onPreExecute() {
-        System.out.println("Stated thread!");
+        System.out.println("Started thread!");
     }
 
     @Override

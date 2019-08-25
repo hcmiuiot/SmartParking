@@ -22,7 +22,7 @@
                <children>
                   <AnchorPane prefHeight="752.0" prefWidth="430.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fx:id="imgFont" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
+                        <ImageView fx:id="imgFront" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="10.0">
                            <image>
                               <Image url="@default-image.jpg" />
                            </image>
@@ -40,7 +40,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="750.0" prefWidth="413.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fx:id="imgCamFont" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+                        <ImageView fx:id="imgCamFront" fitHeight="300.0" fitWidth="400.0" layoutX="18.0" layoutY="10.0" nodeOrientation="INHERIT" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
                            <image>
                               <Image url="@default-image.jpg" />
                            </image>
