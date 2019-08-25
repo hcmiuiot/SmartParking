@@ -2,7 +2,7 @@ package Camera;
 
 import com.victorlaerte.asynctask.AsyncTask;
 import javafx.scene.image.ImageView;
-import main.ImageProcessing;
+import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
