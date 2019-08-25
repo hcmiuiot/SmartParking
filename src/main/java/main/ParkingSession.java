@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 import java.util.Date;
 
-public class Vehicle {
+public class ParkingSession {
     private String rfidNumber;
     private Image frontImg;
     private Image backImg;
@@ -16,7 +16,7 @@ public class Vehicle {
     private EnumEmotion emotionIn = EnumEmotion.UNKNOWN;
     private EnumEmotion emotionOut = EnumEmotion.UNKNOWN;
 
-    public Vehicle(String rfidNumber, Image frontImg, Image backImg, String plateNumber, Date timeIn) {
+    public ParkingSession(String rfidNumber, Image frontImg, Image backImg, String plateNumber, Date timeIn) {
         this.rfidNumber = rfidNumber;
         this.frontImg = frontImg;
         this.plateImg = backImg;

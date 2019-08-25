@@ -44,7 +44,7 @@ public class JSerial {
 
     public String serialRead() {
         //will be an infinite loop if incoming data is not bound
-        this.comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+//        this.comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
         String out = "";
         Scanner in = new Scanner(this.comPort.getInputStream());
         try {

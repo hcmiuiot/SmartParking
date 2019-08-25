@@ -25,14 +25,14 @@ public class TrackingConfigController implements Initializable {
 	@FXML
     private JFXSlider focusWidth;
 
-    @FXML
-    private JFXSlider focusHeight;
+	@FXML
+	private JFXSlider focusHeight;
 
-    @FXML
-    private JFXSlider focusX;
+	@FXML
+	private JFXSlider focusX;
 
-    @FXML
-    private JFXSlider focusY;
+	@FXML
+	private JFXSlider focusY;
 	@FXML
 	private JFXComboBox laneRole_combobox;
 
@@ -41,13 +41,13 @@ public class TrackingConfigController implements Initializable {
 	}
 	
 	@FXML
-    void onCancel(ActionEvent event) {
+	void onCancel(ActionEvent event) {
 		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
 		stage.close();
-    }
+	}
 
-    @FXML
-    void onOkay(ActionEvent event) {
+	@FXML
+		void onOkay(ActionEvent event) {
 		if (laneRole_combobox.getValue().toString().equals("Enter and Out")){
 			trackingController.setRole((byte) 0);
 		} else if (laneRole_combobox.getValue().toString().equals("Only Enter")){
@@ -58,13 +58,13 @@ public class TrackingConfigController implements Initializable {
 		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
 		stage.close();
 	}
-    
-    @FXML
-    void onChangeFocusConfigs(MouseEvent event) {
-    	if (trackingController != null) {
-    		trackingController.setFocusConfig((int)focusWidth.getValue(), (int)focusHeight.getValue(), (int)focusX.getValue(), (int)focusY.getValue());
-    	}
-    }
+	
+	@FXML
+	void onChangeFocusConfigs(MouseEvent event) {
+		if (trackingController != null) {
+			trackingController.setFocusConfig((int)focusWidth.getValue(), (int)focusHeight.getValue(), (int)focusX.getValue(), (int)focusY.getValue());
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

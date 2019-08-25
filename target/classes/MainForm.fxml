@@ -4,12 +4,13 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
+<AnchorPane prefHeight="708.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.MainController">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="425.0" prefWidth="456.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -25,6 +26,7 @@
                         <JFXButton fx:id="btn_rfidConnect" contentDisplay="CENTER" disable="true" onAction="#onRFIDConnectAction" prefHeight="34.0" prefWidth="68.0" text="Connect" textAlignment="CENTER" />
                         <JFXButton fx:id="btn_rfidStop" contentDisplay="CENTER" disable="true" onAction="#onRFIDStopAction" prefHeight="34.0" prefWidth="55.0" text="Stop" textAlignment="CENTER" />
                         <JFXButton fx:id="btn_rfidRefresh" alignment="CENTER" contentDisplay="CENTER" onAction="#onRFIDRefreshAction" prefHeight="34.0" prefWidth="63.0" text="Refresh" textAlignment="CENTER" />
+                        <Separator minWidth="25.0" orientation="VERTICAL" prefHeight="34.0" />
                      </buttons>
                   </ButtonBar>
                   <Label fx:id="lblTime" layoutX="244.0" layoutY="-3.0" text="Have a good day!!!" textFill="#303f9f" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">

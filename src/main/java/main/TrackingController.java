@@ -73,7 +73,7 @@ public class TrackingController implements Initializable {
     private Image defaultImg_plate = new Image("/" + Constants.DEFAULT_IMG_PLATE_DIR);
     private Date timeIn;
     private Date timeOut;
-    private Vehicle currentVehicle;
+    private ParkingSession currentParkingSession;
     private EnumEmotion detecedEmotion = EnumEmotion.UNKNOWN;
     /**
      * 0 - Both Enter and Out lane (Default)
@@ -145,7 +145,7 @@ public class TrackingController implements Initializable {
         enterOutBtn_changeToYellow();
 
         resetImg();
-        currentVehicle = null;
+        currentParkingSession = null;
         Platform.runLater(() -> {
             txtPlateNumber.setDisable(true);
             txtRFID.setDisable(false);
@@ -172,9 +172,9 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        currentVehicle = new Vehicle(txtRFID.getText(), null, null, null, new Date());
+        currentParkingSession = new ParkingSession(txtRFID.getText(), null, null, null, new Date());
 
-        timeIn = currentVehicle.getTimeIn();
+        timeIn = currentParkingSession.getTimeIn();
         Platform.runLater(() -> {
 //            imgFont.setImage(imgCamFont.getImage());
 //            imgBack.setImage(imgCamBack.getImage());
@@ -195,21 +195,21 @@ public class TrackingController implements Initializable {
         txtRFID.setDisable(true);
         btn_cancel.setDisable(false);
 
-        timeIn = currentVehicle.getTimeIn();
+        timeIn = currentParkingSession.getTimeIn();
         timeOut = new Date();
 
-        long duration = getDateDiff(currentVehicle.getTimeIn(), timeOut, TimeUnit.HOURS);
+        long duration = getDateDiff(currentParkingSession.getTimeIn(), timeOut, TimeUnit.HOURS);
 
         Platform.runLater(() -> {
-            imgFont.setImage(currentVehicle.getFrontImg());
-            imgBack.setImage(currentVehicle.getBackImg());
-            imgPlate.setImage(currentVehicle.getPlateImg());
+            imgFont.setImage(currentParkingSession.getFrontImg());
+            imgBack.setImage(currentParkingSession.getBackImg());
+            imgPlate.setImage(currentParkingSession.getPlateImg());
 
-            txtPlateNumber.setText(currentVehicle.getPlateNumber());
+            txtPlateNumber.setText(currentParkingSession.getPlateNumber());
             lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
             lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
             lbl_parkingDuration.setText(duration + " Hours");
-            lbl_parkingFee.setText(VehicleManage.getInstance().calculateParkingFee(duration) + " VND");
+            lbl_parkingFee.setText(SessionParkingServices.getInstance().calculateParkingFee(duration) + " VND");
 
             emotionDetectService.start();
         });
@@ -220,8 +220,8 @@ public class TrackingController implements Initializable {
         if (state == 0) {
             System.out.println(this.name + " input RFID: " + txtRFID.getText());
             enterOutBtn.setText("...");
-            currentVehicle = VehicleManage.getInstance().getVehicleByRfidFromParkingList(txtRFID.getText());
-            if (currentVehicle != null) {
+            currentParkingSession = SessionParkingServices.getInstance().getParkingSessionByRfidFromParkingList(txtRFID.getText());
+            if (currentParkingSession != null) {
                 if (role == 0 || role == 2) {
                     changeToConfirm_OutMode();
                 } else {
@@ -235,20 +235,20 @@ public class TrackingController implements Initializable {
                 }
             }
         } else if (state == 1) {
-            currentVehicle.setPlateNumber(txtPlateNumber.getText());
-            currentVehicle.setFrontImg(imgFont.getImage());
-            currentVehicle.setBackImg(imgBack.getImage());
-            currentVehicle.setPlateImg(imgPlate.getImage());
-            currentVehicle.setEmotionIn(detecedEmotion);
-            VehicleManage.addVehicle(currentVehicle);
-            System.out.println(currentVehicle + " IN");
+            currentParkingSession.setPlateNumber(txtPlateNumber.getText());
+            currentParkingSession.setFrontImg(imgFont.getImage());
+            currentParkingSession.setBackImg(imgBack.getImage());
+            currentParkingSession.setPlateImg(imgPlate.getImage());
+            currentParkingSession.setEmotionIn(detecedEmotion);
+            SessionParkingServices.addParkingSession(currentParkingSession);
+            System.out.println(currentParkingSession + " IN");
             enterOutBtn.setText("...");
             changeToWaitingMode();
         } else if (state == 2) {
-            currentVehicle.changeStatusToLeft();
-            currentVehicle.setEmotionOut(detecedEmotion);
-            VehicleManage.getInstance().moveVehicleToOtherList(currentVehicle);
-            System.out.println(currentVehicle + " OUT");
+            currentParkingSession.changeStatusToLeft();
+            currentParkingSession.setEmotionOut(detecedEmotion);
+            SessionParkingServices.getInstance().moveParkingSessionToOtherList(currentParkingSession);
+            System.out.println(currentParkingSession + " OUT");
             enterOutBtn.setText("...");
             changeToWaitingMode();
         }

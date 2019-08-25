@@ -49,17 +49,17 @@ public class Database {
 		return instance;
 	}
 
-	public Document getDocumentFromVehicle(Vehicle vehicle){
-		return new Document(RFIDNUMBER, vehicle.getRfidNumber()).
-				append(PLATENUMBER, vehicle.getPlateNumber()).
-				append(TIMEIN, vehicle.getTimeIn()).
-				append(TIMEOUT, vehicle.getTimeOut()).
-				append(EMOTIONIN, vehicle.getEmotionIn()).
-				append(EMOTIONOUT, vehicle.getEmotionOut()).
-				append(STATUS, vehicle.getStatus());
-//                append(FRONTIMG_BASE64, vehicle.getFrontImg()).
-//                append(BACKIMG_BASE64, vehicle.getBackImg()).
-//                append(PLATEIMG_BASE64, vehicle.getPlateImg());
+	public Document getDocumentFromVehicle(ParkingSession parkingSession){
+		return new Document(RFIDNUMBER, parkingSession.getRfidNumber()).
+				append(PLATENUMBER, parkingSession.getPlateNumber()).
+				append(TIMEIN, parkingSession.getTimeIn()).
+				append(TIMEOUT, parkingSession.getTimeOut()).
+				append(EMOTIONIN, parkingSession.getEmotionIn()).
+				append(EMOTIONOUT, parkingSession.getEmotionOut()).
+				append(STATUS, parkingSession.getStatus());
+//                append(FRONTIMG_BASE64, parkingSession.getFrontImg()).
+//                append(BACKIMG_BASE64, parkingSession.getBackImg()).
+//                append(PLATEIMG_BASE64, parkingSession.getPlateImg());
 	}
 
 	public void closeConnection(){
