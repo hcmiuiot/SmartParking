@@ -323,7 +323,7 @@ public class TrackingController implements Initializable {
         } else if (state == 2) {
             currentParkingSession.changeStatusToLeft();
             currentParkingSession.setEmotionOut(detecedEmotion);
-            SessionParkingServices.getInstance().moveParkingSessionToOtherList(currentParkingSession);
+            SessionParkingServices.getInstance().moveParkingSessionToReservedList(currentParkingSession);
             System.out.println(currentParkingSession + " OUT");
             enterOutBtn.setText("...");
             changeToWaitingMode();

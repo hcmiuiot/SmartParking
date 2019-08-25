@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class SessionParkingServices {
     private static SessionParkingServices instance;
-    private static ArrayList<ParkingSession> listOfOtherParkingSession = new ArrayList<>();
+    private static ArrayList<ParkingSession> listOfReservedParkingSession = new ArrayList<>();
     private static ArrayList<ParkingSession> listOfParkingParkingSession = new ArrayList<>();
 
     private SessionParkingServices() {
@@ -46,11 +46,11 @@ public class SessionParkingServices {
         return duration * Constants.FEE_PER_HOUR;
     }
 
-    public void moveParkingSessionToOtherList(ParkingSession parkingSession){
+    public void moveParkingSessionToReservedList(ParkingSession parkingSession){
         for (int i = listOfParkingParkingSession.size() - 1; i >= 0; i--) {
             // If RFID is exist in DB and that ParkingSession is parking
             if (listOfParkingParkingSession.get(i).getRfidNumber().toUpperCase().equals(parkingSession.getRfidNumber().toUpperCase()) && listOfParkingParkingSession.get(i).getStatus() == true){
-                listOfOtherParkingSession.add(listOfParkingParkingSession.get(i));
+                listOfReservedParkingSession.add(listOfParkingParkingSession.get(i));
                 listOfParkingParkingSession.remove(i);
                 return;
             }

@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXSlider;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
@@ -47,12 +48,16 @@ public class TrackingConfigController implements Initializable {
 
 	@FXML
 		void onOkay(ActionEvent event) {
-		if (laneRole_combobox.getValue().toString().equals("Enter and Out")){
-			trackingController.setRole((byte) 0);
-		} else if (laneRole_combobox.getValue().toString().equals("Only Enter")){
-			trackingController.setRole((byte) 1);
-		} else if (laneRole_combobox.getValue().toString().equals("Only Out")){
-			trackingController.setRole((byte) 2);
+		switch (laneRole_combobox.getValue().toString()) {
+			case "Enter and Out":
+				trackingController.setRole((byte) 0);
+				break;
+			case "Only Enter":
+				trackingController.setRole((byte) 1);
+				break;
+			case "Only Out":
+				trackingController.setRole((byte) 2);
+				break;
 		}
 		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
 		stage.close();
@@ -69,7 +74,7 @@ public class TrackingConfigController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		int camCount = ImageProcessing.getNumOfAvailableCamera();
 		for (int i=0; i < camCount; i++) {
-			comboFontCamera.getItems().add("Camera " + i);
+			comboFontCamera.getItems().add(new Label("Camera " + i));
 			comboBehindCamera.getItems().add("Camera " + i);
 		}
 //		comboFontCamera.getSelectionModel().select(0);
