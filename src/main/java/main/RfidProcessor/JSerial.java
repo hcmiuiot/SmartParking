@@ -1,4 +1,4 @@
-package main;
+package main.RfidProcessor;
 
 import com.fazecast.jSerialComm.SerialPort;
 

@@ -1,4 +1,4 @@
-package main;
+package main.RfidProcessor;
 // https://sourceforge.net/projects/javaarduinolibrary/files/
 
 import com.fazecast.jSerialComm.SerialPort;

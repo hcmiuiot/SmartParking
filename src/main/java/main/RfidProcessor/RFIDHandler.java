@@ -1,4 +1,4 @@
-package main;
+package main.RfidProcessor;
 
 public class RFIDHandler {
     private static RFIDHandler instance;
