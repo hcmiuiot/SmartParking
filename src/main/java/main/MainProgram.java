@@ -2,20 +2,14 @@ package main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import sun.applet.Main;
+import main.ImageProcessor.EmotionalProcessing.EmotionDetector;
 
-import javax.crypto.Cipher;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainProgram extends Application {
 
@@ -28,6 +22,7 @@ public class MainProgram extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("-------INITIALIZATION-------");
+
         primaryStage.getIcons().add(new Image(Constants.LOGO_FILENAME));
         FXMLLoader loader = new FXMLLoader(MainProgram.class.getResource("/" + Constants.FXML_MAIN));
         Parent mainform = loader.load();
