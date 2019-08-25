@@ -93,5 +93,6 @@ public class CameraStreamer extends AsyncTask {
     @Override
     public void progressCallback(Object[] objects) {
 
+
     }
 }

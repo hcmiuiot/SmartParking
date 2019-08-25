@@ -367,7 +367,10 @@ public class ImageProcessing {
 //			System.out.println(characterBoxes.get(t).getMat());
 
 			//Imgcodecs.imwrite("./demo/char/" + characterBoxes.get(t).hashCode() + ".jpg", characterBoxes.get(t).getMat());
-
+			if (t == 2 && (char)predictChar(characterBoxes.get(t).getMat()) == '8') {
+				plateNumber += "B";
+				continue;
+			}
 			plateNumber += (char) predictChar(characterBoxes.get(t).getMat());
 		}
 		return plateNumber;
