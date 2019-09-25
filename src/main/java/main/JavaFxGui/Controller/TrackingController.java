@@ -6,11 +6,13 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Constants;
+import main.Database;
 import main.Domain.ParkingSession;
 import main.Domain.SessionParkingServices;
 import main.ImageProcessor.EmotionalProcessing.EmotionDetector;
@@ -27,8 +30,10 @@ import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
 import main.MainProgram;
 import main.RfidProcessor.RFIDHandler;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -129,10 +134,6 @@ public class TrackingController implements Initializable {
 
     //region Image Processing
     private ScheduledExecutorService timer;
-    private int deviceIndex = 0;
-//    private VideoCapture capture;
-//    private Mat frame;
-//    private Mat m1;
     private int focusWidth, focusHeight, focusX, focusY;
 
 
@@ -199,9 +200,7 @@ public class TrackingController implements Initializable {
     }
     //endregion
 
-
     //region State Helper
-
     public void changeToWaitingMode() {
         state = 0;
         enterOutBtn_changeToYellow();
@@ -242,16 +241,26 @@ public class TrackingController implements Initializable {
         currentParkingSession = new ParkingSession(txtRFID.getText(), null, null, null, new Date());
 
         timeIn = currentParkingSession.getTimeIn();
+
         Platform.runLater(() -> {
-//            imgFront.setImage(imgCamFront.getImage());
-//            imgBack.setImage(imgCamBack.getImage());
-//            imgPlate.setImage(imgCamPlate.getImage());
+
+            Image img = imgCamBack.getImage();
+
+            imgFront.setImage(imgCamFront.getImage());
+            imgBack.setImage(img);
+            imgPlate.setImage(imgCamPlate.getImage());
+
+            if (img != null) {
+                DataPacket packet = new DataPacket(ImageProcessing.BufferedImage2Mat(SwingFXUtils.fromFXImage(img, null)));
+                ImageProcessing.setImage(imgPlate, packet.getDetectedPlate());
+                txtPlateNumber.setText(packet.getLicenseNumber());
+            }
 
             lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
             lbl_parkingDuration.setText("0");
             lbl_parkingFee.setText("0 VND");
 
-            emotionDetectService.start();
+//            emotionDetectService.start();
         });
     }
 
@@ -273,12 +282,32 @@ public class TrackingController implements Initializable {
             imgPlate.setImage(currentParkingSession.getPlateImg());
 
             txtPlateNumber.setText(currentParkingSession.getPlateNumber());
+
+            Image img = imgCamBack.getImage();
+
+            if (img != null) {
+                DataPacket packet = new DataPacket(ImageProcessing.BufferedImage2Mat(SwingFXUtils.fromFXImage(img, null)));
+                ImageProcessing.setImage(imgCamPlate, packet.getDetectedPlate());
+                String outPlateNumber = packet.getLicenseNumber();
+
+                if (     outPlateNumber != null &&
+		                !outPlateNumber.isEmpty() &&
+                        !outPlateNumber.equals(currentParkingSession.getPlateNumber())) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setContentText("DETECT MIS-MATCHED LICENSE PLATE!\nPLEASE CONFIRM IN CAUTION!\n" +
+                            "Number: " + outPlateNumber);
+                    alert.show();
+                }
+//                txtPlateNumber.setText(packet.getLicenseNumber());
+//                txtPlateNumber.setText(outPlateNumber);
+            }
+
             lbl_checkInTime.setText(MainProgram.getSimpleDateFormat().format(timeIn));
             lbl_checkOutTime.setText(MainProgram.getSimpleDateFormat().format(timeOut));
             lbl_parkingDuration.setText(duration + " Hours");
             lbl_parkingFee.setText(SessionParkingServices.getInstance().calculateParkingFee(duration) + " VND");
 
-            emotionDetectService.start();
+//          emotionDetectService.start();
         });
     }
 
@@ -296,6 +325,7 @@ public class TrackingController implements Initializable {
         if (state == 0) {
             System.out.println(this.name + " input RFID: " + txtRFID.getText());
             enterOutBtn.setText("...");
+//            Database.getInstance().findActiveSessionByRfid(txtRFID.getText());
             currentParkingSession = SessionParkingServices.getInstance().getParkingSessionByRfidFromParkingList(txtRFID.getText());
             if (currentParkingSession != null) {
                 if (role == 0 || role == 2) {
@@ -316,14 +346,22 @@ public class TrackingController implements Initializable {
             currentParkingSession.setBackImg(imgBack.getImage());
             currentParkingSession.setPlateImg(imgPlate.getImage());
             currentParkingSession.setEmotionIn(detectedEmotion);
+
+	        currentParkingSession.toDocument();
+
+//	        Database.getInstance().insert2ActiveSessions(currentParkingSession);
+
             SessionParkingServices.getInstance().addParkingSession(currentParkingSession);
+
             System.out.println(currentParkingSession + " IN");
             enterOutBtn.setText("...");
             changeToWaitingMode();
         } else if (state == 2) {
             currentParkingSession.changeStatusToLeft();
             currentParkingSession.setEmotionOut(detectedEmotion);
+
             SessionParkingServices.getInstance().moveParkingSessionToReservedList(currentParkingSession);
+
             System.out.println(currentParkingSession + " OUT");
             enterOutBtn.setText("...");
             changeToWaitingMode();
@@ -348,36 +386,26 @@ public class TrackingController implements Initializable {
 
     @FXML
     public void exitApplication(ActionEvent event) {
-        System.out.println("Reach here");
         Platform.exit();
     }
 
+    private int frontCamId = 0, rearCamId = -1;
 
     @FXML
-    void onTestAll(ActionEvent event) {
-//		demoProcessAllImgs();
-//		ImageProcessing.train();
-
-//		Platform.runLater(() -> {
-        cameraStreamer = new CameraStreamer(0, imgCamFront);
-        cameraStreamer2 = new CameraStreamer(0, imgCamBack);
-//
-//            cameraStreamer.setFps(50);
-//            cameraStreamer2.setFps(50);
-
-        cameraStreamer.startStream();
-        cameraStreamer2.startStream();
-//		});
-
-        //Thread thread = new Thread(new CameraStreamer(0, imgCamFront));
-//		streamVideo();
+    void onStartCam(ActionEvent event) {
+        if (frontCamId != -1) {
+            cameraStreamer = new CameraStreamer(frontCamId, imgCamFront);
+            cameraStreamer.startStream();
+        }
+        if (rearCamId != -1) {
+            cameraStreamer2 = new CameraStreamer(rearCamId, imgCamBack);
+            cameraStreamer2.startStream();
+        }
     }
 
 
     @FXML
     private void onConfig(ActionEvent event) {
-//		cameraStreamer.stopStream();
-//		cameraStreamer2.stopStream();
         FXMLLoader configLoader = new FXMLLoader(getClass().getResource("/" + Constants.FXML_TRACKING_CONFIG));
         try {
             AnchorPane configDialog = configLoader.load();
@@ -388,7 +416,6 @@ public class TrackingController implements Initializable {
             configController.setTrackingController(this);
             stage.setTitle(this.name + " config");
             stage.show();
-//            stage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -412,17 +439,8 @@ public class TrackingController implements Initializable {
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
+            if (listOfFiles[i].isFile())
                 System.out.println("File " + listOfFiles[i].getName());
-
-//		        ImageProcessing.getLicensePlateNumber(listOfFiles[i]);
-
-            }
-
-//		      } else if (listOfFiles[i].isDirectory()) {
-//		        System.out.println("Directory " + listOfFiles[i].getName());
-//		      }
-
         }
     }
 
@@ -461,6 +479,11 @@ public class TrackingController implements Initializable {
         focusHeight = height;
         focusX = x;
         focusY = y;
+    }
+
+    public void setCamSource(int frontCamId, int rearCamId) {
+        this.frontCamId = frontCamId;
+        this.rearCamId = rearCamId;
     }
     //endregion
 

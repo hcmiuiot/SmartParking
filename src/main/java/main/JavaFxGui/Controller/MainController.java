@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import main.Constants;
+import main.Database;
 import main.JavaFxGui.DatetimeUpdater;
 import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
 import main.MainProgram;
@@ -93,6 +94,9 @@ public class MainController implements Initializable {
 
         //RFIDHandler
         this.refreshPortList();
+
+        // DATABASE
+        Database.getInstance();
     }
     //endregion
 
@@ -136,6 +140,10 @@ public class MainController implements Initializable {
             for (int i = 0; i < portNames.size(); i++) {
                 choosePortComboBox.getItems().add(new Label(portNames.get(i).getSystemPortName()));
                 System.out.println(portNames.get(i).getSystemPortName());
+            }
+            choosePortComboBox.getSelectionModel().selectFirst();
+            if (portNames.size() == 1) {
+                this.onRFIDConnectAction(null);
             }
         } else {
             System.out.println("No available serial port");

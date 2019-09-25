@@ -2,7 +2,10 @@ package main.ImageProcessor.PlateNumberProcessing;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,7 +31,9 @@ public class ImageProcessing {
 	private static ImageProcessing instance;
 
 	private ImageProcessing() {
-		System.load("D:\\IT\\IdeaProjects\\SmartParking\\lib\\x64\\opencv_java343.dll");
+		String libPath = Paths.get("lib\\x64\\opencv_java343.dll").toAbsolutePath().toString();
+		System.load(libPath);
+//		System.out.println();
 //		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 	public static ImageProcessing getInstance() {
@@ -52,6 +57,16 @@ public class ImageProcessing {
 
 	    BufferedImage bi=ImageIO.read(new ByteArrayInputStream(ba));
 	    return bi;
+	}
+	public static Mat BufferedImage2Mat(BufferedImage image) {
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(image, "jpg", byteArrayOutputStream);
+			byteArrayOutputStream.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Imgcodecs.imdecode(new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
 	}
 	public static ImageView setImage(ImageView imgView, Mat img) {
 		if (imgView != null)
@@ -196,6 +211,7 @@ public class ImageProcessing {
 
 		return morphology;
 	}
+
 	public static Mat detectPlate(Mat processedImg) {
 
 		if (processedImg == null)

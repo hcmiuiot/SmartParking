@@ -150,8 +150,8 @@
                         <ButtonBar prefHeight="841.0" prefWidth="870.0">
                           <buttons>
                               <JFXButton onAction="#onConfig" prefHeight="36.0" prefWidth="407.0" text="Config" />
-                              <JFXButton onAction="#onTest" prefHeight="36.0" prefWidth="82.0" text="Open" />
-                              <JFXButton onAction="#onTestAll" prefHeight="36.0" prefWidth="110.0" text="Process ALL" />
+                              <JFXButton onAction="#onTest" prefHeight="36.0" prefWidth="82.0" text="Open picture" />
+                              <JFXButton onAction="#onStartCam" prefHeight="36.0" prefWidth="110.0" text="Start camera" />
                               <JFXButton fx:id="btn_cancel" disable="true" onAction="#cancelSession" text="Cancel" />
                           </buttons>
                         </ButtonBar>

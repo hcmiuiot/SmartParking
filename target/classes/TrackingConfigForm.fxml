@@ -25,8 +25,8 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="424.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label prefWidth="150.0" text="Font camera source" />
-                  <JFXComboBox fx:id="comboFontCamera" prefHeight="28.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
+                  <Label prefWidth="150.0" text="Front camera source" />
+                  <JFXComboBox fx:id="comboFrontCamera" prefHeight="28.0" prefWidth="250.0" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets />

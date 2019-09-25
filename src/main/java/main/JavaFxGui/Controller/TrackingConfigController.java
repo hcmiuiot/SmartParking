@@ -18,7 +18,7 @@ public class TrackingConfigController implements Initializable {
 	private TrackingController trackingController = null;
 
 	@FXML
-	private JFXComboBox comboFontCamera;
+	private JFXComboBox comboFrontCamera;
 	@FXML
 	private JFXComboBox comboBehindCamera;
 	
@@ -59,6 +59,9 @@ public class TrackingConfigController implements Initializable {
 				trackingController.setRole((byte) 2);
 				break;
 		}
+		trackingController.setCamSource(comboFrontCamera.getSelectionModel().getSelectedIndex(),
+				comboBehindCamera.getSelectionModel().getSelectedIndex());
+		trackingController.onStartCam(null);
 		Stage stage = (Stage) laneRole_combobox.getScene().getWindow();
 		stage.close();
 	}
@@ -74,10 +77,10 @@ public class TrackingConfigController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		int camCount = ImageProcessing.getNumOfAvailableCamera();
 		for (int i=0; i < camCount; i++) {
-			comboFontCamera.getItems().add(new Label("Camera " + i));
+			comboFrontCamera.getItems().add(new Label("Camera " + i));
 			comboBehindCamera.getItems().add("Camera " + i);
 		}
-//		comboFontCamera.getSelectionModel().select(0);
+//		comboFrontCamera.getSelectionModel().select(0);
 //		comboBehindCamera.getSelectionModel().select(0);
 		laneRole_combobox.getItems().add("Enter and Out");
 		laneRole_combobox.getItems().add("Only Enter");

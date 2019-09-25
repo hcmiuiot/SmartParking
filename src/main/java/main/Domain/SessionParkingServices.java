@@ -43,7 +43,7 @@ public class SessionParkingServices {
     }
 
     public long calculateParkingFee(Long duration) {
-        return duration * Constants.FEE_PER_HOUR;
+        return Math.max(duration * Constants.FEE_PER_HOUR, Constants.FEE_PER_HOUR);
     }
 
     public void moveParkingSessionToReservedList(ParkingSession parkingSession){

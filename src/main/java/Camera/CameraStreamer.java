@@ -68,6 +68,8 @@ public class CameraStreamer extends AsyncTask {
                 System.out.println("TRYING TO RECONNECT CAMERA #" + this.cameraIdx);
                 vc.open(this.cameraIdx);
                 System.out.println("CAMERA #" + this.cameraIdx + ":" + vc.isOpened());
+                if (!vc.isOpened())
+                    isPlaying = false;
             }
             vc.read(currentFrame);
             if (this.imageViewer != null) {

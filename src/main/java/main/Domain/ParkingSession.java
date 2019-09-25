@@ -1,9 +1,14 @@
 package main.Domain;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import main.ImageProcessor.EmotionalProcessing.EnumEmotion;
 import main.MainProgram;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class ParkingSession {
@@ -28,7 +33,7 @@ public class ParkingSession {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(MainProgram.getSimpleDateFormat().format(timeIn)).append(", ");
         builder.append(rfidNumber).append(", ");
@@ -36,10 +41,16 @@ public class ParkingSession {
         return builder.toString();
     }
 
+    public Document toDocument() {
+//        System.out.println(Arrays.toString(ParkingSession.class.getFields()));
+//        System.out.println(new Gson().toJson(this));
+        Document document = new Document();
+        return document;
+    }
+
     public Image getFrontImg() {
         return frontImg;
     }
-
     public void setFrontImg(Image frontImg) {
         this.frontImg = frontImg;
     }
@@ -47,7 +58,6 @@ public class ParkingSession {
     public Image getPlateImg() {
         return plateImg;
     }
-
     public void setPlateImg(Image plateImg) {
         this.plateImg = plateImg;
     }
@@ -55,7 +65,6 @@ public class ParkingSession {
     public String getPlateNumber() {
         return plateNumber;
     }
-
     public void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
     }
@@ -63,7 +72,6 @@ public class ParkingSession {
     public Date getTimeIn() {
         return timeIn;
     }
-
     public void setTimeIn(Date timeIn) {
         this.timeIn = timeIn;
     }
@@ -71,7 +79,6 @@ public class ParkingSession {
     public String getRfidNumber() {
         return rfidNumber;
     }
-
     public void setRfidNumber(String rfidNumber) {
         this.rfidNumber = rfidNumber;
     }
@@ -79,6 +86,7 @@ public class ParkingSession {
     public Boolean getStatus() {
         return status;
     }
+    public void setStatus(boolean status) { this.status = status; }
     public void changeStatusToLeft(){
         this.status = false;
     }
@@ -86,7 +94,6 @@ public class ParkingSession {
     public Date getTimeOut() {
         return timeOut;
     }
-
     public void setTimeOut(Date timeOut) {
         this.timeOut = timeOut;
     }
@@ -94,16 +101,13 @@ public class ParkingSession {
     public Image getBackImg() {
         return backImg;
     }
-
     public void setBackImg(Image backImg) {
         this.backImg = backImg;
     }
 
     public EnumEmotion getEmotionIn() { return emotionIn; }
-
     public void setEmotionIn(EnumEmotion emotionIn) { this.emotionIn = emotionIn; }
 
     public EnumEmotion getEmotionOut() { return emotionOut; }
-
     public void setEmotionOut(EnumEmotion emotionOut) { this.emotionOut = emotionOut; }
 }

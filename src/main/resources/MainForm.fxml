@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.JavaFxGui.Controller.MainController">
+<AnchorPane prefHeight="708.0" prefWidth="1142.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.JavaFxGui.Controller.MainController">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="425.0" prefWidth="456.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -19,13 +20,19 @@
          <bottom>
             <AnchorPane prefHeight="35.0" prefWidth="456.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="14.0" layoutY="15.0" text="RFID Client" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                  <JFXComboBox fx:id="choosePortComboBox" layoutX="76.0" layoutY="5.0" prefHeight="34.0" prefWidth="184.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="76.0" AnchorPane.topAnchor="5.0" />
-                  <ButtonBar buttonMinWidth="60.0" layoutX="260.0" layoutY="2.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="5.0">
+                  <Label layoutX="14.0" layoutY="15.0" text="RFID Client" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding></Label>
+                  <JFXComboBox fx:id="choosePortComboBox" layoutX="76.0" layoutY="5.0" prefHeight="34.0" prefWidth="184.0" promptText="Choose Port" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="76.0" AnchorPane.topAnchor="5.0">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></JFXComboBox>
+                  <ButtonBar buttonMinWidth="80.0" layoutX="260.0" layoutY="2.0" minWidth="350.0" prefHeight="34.0" prefWidth="350.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="5.0">
                      <buttons>
-                        <JFXButton fx:id="btn_rfidConnect" contentDisplay="CENTER" disable="true" onAction="#onRFIDConnectAction" prefHeight="34.0" prefWidth="68.0" text="Connect" textAlignment="CENTER" />
-                        <JFXButton fx:id="btn_rfidStop" contentDisplay="CENTER" disable="true" onAction="#onRFIDStopAction" prefHeight="34.0" prefWidth="55.0" text="Stop" textAlignment="CENTER" />
-                        <JFXButton fx:id="btn_rfidRefresh" alignment="CENTER" contentDisplay="CENTER" onAction="#onRFIDRefreshAction" prefHeight="34.0" prefWidth="63.0" text="Refresh" textAlignment="CENTER" />
+                        <JFXButton fx:id="btn_rfidConnect" contentDisplay="CENTER" disable="true" minWidth="100.0" onAction="#onRFIDConnectAction" prefHeight="34.0" prefWidth="100.0" text="Connect" textAlignment="CENTER" />
+                        <JFXButton fx:id="btn_rfidStop" contentDisplay="CENTER" disable="true" minWidth="70.0" onAction="#onRFIDStopAction" prefHeight="34.0" prefWidth="70.0" text="Stop" textAlignment="CENTER" />
+                        <JFXButton fx:id="btn_rfidRefresh" alignment="CENTER" contentDisplay="CENTER" minWidth="70.0" onAction="#onRFIDRefreshAction" prefHeight="34.0" prefWidth="70.0" text="Refresh" textAlignment="CENTER" />
                         <Separator minWidth="25.0" orientation="VERTICAL" prefHeight="34.0" />
                      </buttons>
                   </ButtonBar>
