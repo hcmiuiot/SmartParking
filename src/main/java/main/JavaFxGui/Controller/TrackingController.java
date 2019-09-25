@@ -388,6 +388,11 @@ public class TrackingController implements Initializable {
 
     @FXML
     void onStartCam(ActionEvent event) {
+        if (cameraStreamer != null)
+            cameraStreamer.stopStream();
+        if (cameraStreamer2 != null)
+            cameraStreamer2.stopStream();
+
         if (frontCamId != -1) {
             cameraStreamer = new CameraStreamer(frontCamId, imgCamFront);
             cameraStreamer.startStream();
