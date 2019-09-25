@@ -1,7 +1,6 @@
 package main.ImageProcessor.PlateNumberProcessing;
 
 import com.google.gson.Gson;
-import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 

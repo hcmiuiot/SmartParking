@@ -1,11 +1,5 @@
 package main.JavaFxGui.Controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
-
 import com.fazecast.jSerialComm.SerialPort;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -19,10 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import main.Constants;
 import main.Database;
-import main.JavaFxGui.DatetimeUpdater;
 import main.ImageProcessor.PlateNumberProcessing.ImageProcessing;
+import main.JavaFxGui.DatetimeUpdater;
 import main.MainProgram;
 import main.RfidProcessor.JSerial;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     //region Properties
@@ -169,8 +169,8 @@ public class MainController implements Initializable {
     private void start() {
         Runnable RFIDrunner =
                 () -> {
-                    System.out.println(cancelled);
-                    System.out.println(portStatus);
+//                    System.out.println(cancelled);
+//                    System.out.println(portStatus);
                     while (!cancelled && portStatus) {
                         String s = "";
                         try {

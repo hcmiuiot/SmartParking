@@ -1,14 +1,10 @@
 package main.Domain;
 
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
 import javafx.scene.image.Image;
 import main.ImageProcessor.EmotionalProcessing.EnumEmotion;
 import main.MainProgram;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class ParkingSession {

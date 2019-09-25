@@ -1,7 +1,5 @@
 package main;
 
-import com.google.gson.Gson;
-import com.mongodb.DBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -62,13 +60,6 @@ public class Database {
 	}
 
 	public Document createDocumentFromVehicle(ParkingSession parkingSession) {
-
-//		Document document = new Document();
-//		Gson gson = new Gson();
-//		String json = gson.toJson(parkingSession);
-//		System.out.println(json);
-//		return null;
-//		this.activeParkingCollection.createIndex()
 		return new Document(RFIDNUMBER, parkingSession.getRfidNumber()).
 				append(PLATENUMBER, parkingSession.getPlateNumber()).
 				append(TIMEIN, parkingSession.getTimeIn()).

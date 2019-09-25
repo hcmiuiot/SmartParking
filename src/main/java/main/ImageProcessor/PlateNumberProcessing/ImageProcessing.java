@@ -1,18 +1,7 @@
 package main.ImageProcessor.PlateNumberProcessing;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import javax.imageio.ImageIO;
-
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.Constants;
 import org.opencv.core.*;
@@ -22,9 +11,18 @@ import org.opencv.imgproc.Moments;
 import org.opencv.ml.Ml;
 import org.opencv.ml.SVM;
 import org.opencv.objdetect.HOGDescriptor;
-
-import javafx.scene.image.Image;
 import org.opencv.videoio.VideoCapture;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ImageProcessing {
 

@@ -1,7 +1,6 @@
 package main.ImageProcessor;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.embed.swt.SWTFXUtils;
 import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
